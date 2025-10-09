@@ -112,7 +112,8 @@
 
   <!-- Scripts al final del body -->
   <script>
-// ✅ Función para buscar por DNI (CORREGIDA)
+
+// ✅ Función para buscar por DNI (Cabeceras EXACTAS)
 async function buscarPorDNI() {
   const dniInput = document.getElementById('dniInput').value.trim();
   const status = document.getElementById('status');
@@ -155,7 +156,7 @@ async function buscarPorDNI() {
       document.getElementById('s4').innerText = match[headers.indexOf('Semana4')] || '—';
       document.getElementById('s5').innerText = match[headers.indexOf('Semana5')] || '—';
 
-      // ✅ Mostrar Total General directamente desde Sheets
+      // ✅ Mostrar Total General desde Sheets
       document.getElementById('totalGeneral').innerText = match[headers.indexOf('Totalgeneral')] || '—';
 
       result.classList.remove('hidden');
@@ -169,6 +170,13 @@ async function buscarPorDNI() {
     status.innerText = 'Error al cargar los datos.';
   }
 }
+
+
+
+
+
+
+
 
 
     // ✅ Lógica del sidebar
