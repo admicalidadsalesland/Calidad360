@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>E-Market Sidebar Mejorado</title>
-
+  <title>Web360|</title>
+  <!-- Cargar Tailwind CSS desde CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Iconos de Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     /* Transición suave */
@@ -14,7 +16,8 @@
     /* Sidebar mini */
     #sidebar.mini { width: 4.5rem; }
     #sidebar.mini .sidebar-text { display: none; }
-    #sidebar.mini .sidebar-header, #sidebar.mini .sidebar-footer { justify-content: center; }
+    #sidebar.mini .sidebar-header,
+    #sidebar.mini .sidebar-footer { justify-content: center; }
     #sidebar.mini .nav-item i { margin: 0 auto; display: block; }
 
     /* Móvil */
@@ -77,7 +80,7 @@
     </div>
   </aside>
 
-  <!-- Contenido -->
+  <!-- Contenido principal -->
   <main id="main-content" class="flex-1 ml-64 pt-20 pb-10 px-4 md:px-6">
     <div class="max-w-4xl mx-auto text-center mb-8">
       <h1 class="text-2xl font-bold text-blue-900">🔍 Buscador de Agentes</h1>
@@ -107,119 +110,85 @@
     </div>
   </main>
 
+  <!-- Scripts al final del body -->
   <script>
 
+// ✅ Función para buscar por DNI (Cabeceras EXACTAS)
+async function buscarPorDNI() {
+  const dniInput = document.getElementById('dniInput').value.trim();
+  const status = document.getElementById('status');
+  const result = document.getElementById('result');
 
-    async function buscarPorDNI() {
-      const dniInput = document.getElementById('dniInput').value.trim();
-      const status = document.getElementById('status');
-      const result = document.getElementById('result');
+  if (!dniInput) {
+    status.innerText = 'Por favor, ingresa un DNI.';
+    result.classList.add('hidden');
+    return;
+  }
 
-      if (!dniInput) {
-        status.innerText = 'Por favor, ingresa un DNI.';
-        return;
-      }
+  status.innerText = 'Buscando...';
+  result.classList.add('hidden');
 
-      status.innerText = 'Buscando...';
+  try {
+    const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSurBIXBz-zxgpeTzfypry62oOkEvUpRZ-NK7XopbQbCz87sZJFuBUhPTBS17HVxHLuO0kYPe2r3YT0/pub?gid=187586138&single=true&output=csv');
+    const data = await response.text();
+    const rows = data.split('\n').map(r => r.split(','));
 
-      try {
-        const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSurBIXBz-zxgpeTzfypry62oOkEvUpRZ-NK7XopbQbCz87sZJFuBUhPTBS17HVxHLuO0kYPe2r3YT0/pub?gid=187586138&single=true&output=csv');
-        const data = await response.text();
-        const rows = data.split('
-').map(r => r.split(','));
-
-        const headers = rows[0];
-        const dniIndex = headers.indexOf('DNI');
-
-        const match = rows.find(row => row[dniIndex] === dniInput);
-
-        if (match) {
-          document.getElementById('agentName').innerText = match[headers.indexOf('Agente')] || 'Sin Nombre';
-          document.getElementById('s1').innerText = match[headers.indexOf('Semana1')] || '—';
-          document.getElementById('s2').innerText = match[headers.indexOf('Semana2')] || '—';
-          document.getElementById('s3').innerText = match[headers.indexOf('Semana3')] || '—';
-          document.getElementById('s4').innerText = match[headers.indexOf('Semana4')] || '—';
-          document.getElementById('s5').innerText = match[headers.indexOf('Semana5')] || '—';
-
-          const total = [1,2,3,4,5].reduce((acc,i)=> acc + (parseFloat(match[headers.indexOf('Semana'+i)]) || 0), 0);
-          document.getElementById('totalGeneral').innerText = total;
-
-          result.classList.remove('hidden');
-          status.innerText = 'Resultado encontrado';
-        } else {
-          result.classList.add('hidden');
-          status.innerText = 'No se encontró ningún agente con ese DNI.';
-        }
-      } catch (error) {
-        status.innerText = 'Error al cargar los datos.';
-      }
-    }
-    // Función buscarPorDNI actualizada
-    async function buscarPorDNI() {
-      const dniInput = document.getElementById('dniInput').value.trim();
-      const status = document.getElementById('status');
-      const result = document.getElementById('result');
-
-      if (!dniInput) {
-        status.innerText = 'Por favor, ingresa un DNI.';
-        return;
-      }
-
-      status.innerText = 'Buscando...';
-
-      try {
-        const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSurBIXBz-zxgpeTzfypry62oOkEvUpRZ-NK7XopbQbCz87sZJFuBUhPTBS17HVxHLuO0kYPe2r3YT0/pub?gid=187586138&single=true&output=csv');
-        const data = await response.text();
-        const rows = data.split('
-').map(r => r.split(','));
-
-        console.log('Datos cargados:', rows);
-
-        const headers = rows[0].map(h => h.trim());
-        const dniIndex = headers.indexOf('DNI');
-
-        if (dniIndex === -1) {
-          status.innerText = '⚠️ No se encontró la columna DNI en la hoja.';
-          return;
-        }
-
-        const match = rows.find(row => row[dniIndex]?.trim() === dniInput);
-
-        if (match) {
-          status.innerText = '✅ Resultado encontrado';
-          result.classList.remove('hidden');
-
-          document.getElementById('agentName').innerText = match[headers.indexOf('Agente')] || 'Sin Nombre';
-          document.getElementById('s1').innerText = match[headers.indexOf('Semana1')] || '—';
-          document.getElementById('s2').innerText = match[headers.indexOf('Semana2')] || '—';
-          document.getElementById('s3').innerText = match[headers.indexOf('Semana3')] || '—';
-          document.getElementById('s4').innerText = match[headers.indexOf('Semana4')] || '—';
-          document.getElementById('s5').innerText = match[headers.indexOf('Semana5')] || '—';
-
-          const total = [1,2,3,4,5].reduce((acc,i)=> acc + (parseFloat(match[headers.indexOf('Semana'+i)]) || 0), 0);
-          document.getElementById('totalGeneral').innerText = total;
-        } else {
-          status.innerText = '❌ No se encontró este DNI.';
-          result.classList.add('hidden');
-        }
-      } catch (error) {
-        status.innerText = '❗Error al cargar datos';
-        console.error(error);
-      }
+    if (rows.length < 2) {
+      status.innerText = 'No se pudieron cargar los datos.';
+      return;
     }
 
+    const headers = rows[0];
+    const dniIndex = headers.indexOf('DNI');
 
+    if (dniIndex === -1) {
+      status.innerText = 'La columna "DNI" no existe en los datos.';
+      return;
+    }
+
+    const match = rows.slice(1).find(row => row[dniIndex] === dniInput);
+
+    if (match) {
+      document.getElementById('agentName').innerText = match[headers.indexOf('Agente')] || 'Sin Nombre';
+      document.getElementById('s1').innerText = match[headers.indexOf('Semana1')] || '—';
+      document.getElementById('s2').innerText = match[headers.indexOf('Semana2')] || '—';
+      document.getElementById('s3').innerText = match[headers.indexOf('Semana3')] || '—';
+      document.getElementById('s4').innerText = match[headers.indexOf('Semana4')] || '—';
+      document.getElementById('s5').innerText = match[headers.indexOf('Semana5')] || '—';
+
+      // ✅ Mostrar Total General desde Sheets
+      document.getElementById('totalGeneral').innerText = match[headers.indexOf('Totalgeneral')] || '—';
+
+      result.classList.remove('hidden');
+      status.innerText = 'Resultado encontrado';
+    } else {
+      result.classList.add('hidden');
+      status.innerText = 'No se encontró ningún agente con ese DNI.';
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    status.innerText = 'Error al cargar los datos.';
+  }
+}
+
+
+
+
+
+
+
+
+
+    // ✅ Lógica del sidebar
     const sidebar = document.getElementById('sidebar');
     const mainContent = document.getElementById('main-content');
     const toggleBtn = document.getElementById('toggleSidebar');
-    let isMini = false;
 
     function toggleSidebar() {
       if (window.innerWidth >= 768) {
         sidebar.classList.toggle('mini');
         mainContent.classList.toggle('ml-16');
         mainContent.classList.toggle('ml-64');
-        isMini = !isMini;
       } else {
         sidebar.classList.toggle('open');
       }
