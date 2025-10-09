@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>E-Market Sidebar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* Transición suave para el sidebar y main */
+    #sidebar {
+      transition: width 0.10s ease, transform 0.10s ease;
+    }
+    #main-content {
+      transition: margin-left 0.10s ease;
+    }
+
+    /* Estilos para modo mini */
+    #sidebar.mini {
+      width: 4.5rem; /* ~72px */
+    }
+    #sidebar.mini .sidebar-text {
+      display: none;
+    }
+    #sidebar.mini .sidebar-header {
+      justify-content: center;
+    }
+    #sidebar.mini .sidebar-footer {
+      justify-content: center;
+    }
+    #sidebar.mini .nav-item span {
+      display: none;
+    }
+    #sidebar.mini .nav-item i {
+      margin-right: 0 !important;
+    }
+
+    /* En móviles, sidebar oculto por defecto */
+    @media (max-width: 768px) {
+      #sidebar:not(.open) {
+        transform: translateX(-100%);
+      }
+      #sidebar.open {
+        transform: translateX(0);
+      }
+      #main-content {
+        margin-left: 0 !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Botón de toggle (visible en todas las pantallas) -->
+  <button id="toggleSidebar" class="fixed top-4 left-4 z-50 p-2 rounded-lg bg-white shadow flex items-center justify-center w-10 h-10">
+    <i class="fas fa-bars text-gray-700"></i>
+  </button>
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="w-64 bg-white rounded-r-xl shadow-lg fixed h-full z-40 flex flex-col">
+    
+    <!-- Header con logo y título -->
+<div class="flex items-center justify-between p-4 mb-2 sidebar-header">
+  <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+
+  </div>
+  <h1 class="font-bold text-xl text-gray-800 sidebar-text flex-1 text-center">
+    <i class="fas fa-globe globe-icon text-blue-600"></i>
+    Web360
+  </h1>
+</div>
+
+
+    <hr class="border-t border-gray-200 my-2">
+
+    <!-- Menú principal -->
+    <nav class="space-y-2 flex-1 px-2">
+      <div>
+        <h2 class="text-xs font-semibold text-gray-500 uppercase mb-2 sidebar-text">Menu</h2>
+        <ul class="space-y-1">
+          <!-- Dashboard (activo) -->
+          <li class="nav-item">
+            <a href="#" class="flex items-center p-3 rounded-lg bg-blue-100 text-blue-800 whitespace-nowrap">
+              <i class="fas fa-tachometer-alt mr-3 text-sm w-4 text-center"></i>
+              <span class="sidebar-text">Notas</span>
+            </a>
+          </li>
+          <!-- portal -->
+          <li class="nav-item">
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-100 whitespace-nowrap">
+              <i class="fas fa-users mr-3 text-sm w-4 text-center"></i>
+              <span class="sidebar-text">Caeq PHX</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Footer del sidebar -->
+    <div class="p-4 border-t border-gray-200 sidebar-footer">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+          <span class="text-white font-bold text-sm">360</span>
+        </div>
+        <div class="sidebar-text">
+          <div class="text-sm font-medium text-gray-800">Desarrollado</div>
+          <div class="text-xs text-gray-500">© 2025 Web360</div>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- Contenido principal -->
+ <main id="main-content" class="flex-1 ml-64 pt-20 pb-10 px-4 md:px-6 transition-all duration-300">
+    <div class="max-w-4xl mx-auto">
+      <!-- Título -->
+      <div class="text-center mb-8">
+        <h1 class="text-2xl font-bold text-blue-900">🔍 Buscador de Agentes</h1>
+        <p class="text-gray-600 mt-2">Ingresa el DNI del agente para ver su desempeño semanal</p>
+      </div>
+
+      <!-- Buscador -->
+      <div class="flex flex-wrap justify-center gap-3 mb-6">
+        <input
+          type="text"
+          id="dniInput"
+          placeholder="Ej: 3882225"
+          autocomplete="off"
+          class="px-4 py-2.5 w-full max-w-xs border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+        />
+        <button
+          onclick="buscarPorDNI()"
+          class="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+        >
+          Buscar
+        </button>
+      </div>
+
+      <!-- Mensaje de estado -->
+      <div id="status" class="text-center text-gray-600 italic mb-6">Escribe un DNI y haz clic en Buscar</div>
+
+      <!-- Resultado -->
+      <div id="result" class="bg-white rounded-xl shadow-md p-6 hidden">
+        <div id="agentName" class="text-xl font-bold text-center text-blue-800 mb-6"></div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-6">
+          <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+            <div class="text-sm text-gray-600">Semana 1</div>
+            <div id="s1" class="text-lg font-bold text-blue-700 mt-1">—</div>
+          </div>
+          <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+            <div class="text-sm text-gray-600">Semana 2</div>
+            <div id="s2" class="text-lg font-bold text-blue-700 mt-1">—</div>
+          </div>
+          <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+            <div class="text-sm text-gray-600">Semana 3</div>
+            <div id="s3" class="text-lg font-bold text-blue-700 mt-1">—</div>
+          </div>
+          <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+            <div class="text-sm text-gray-600">Semana 4</div>
+            <div id="s4" class="text-lg font-bold text-blue-700 mt-1">—</div>
+          </div>
+          <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+            <div class="text-sm text-gray-600">Semana 5</div>
+            <div id="s5" class="text-lg font-bold text-blue-700 mt-1">—</div>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-200 pt-4 text-center">
+          <div class="text-gray-600">Total General</div>
+          <div id="totalGeneral" class="text-2xl font-extrabold text-blue-900 mt-1">—</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('main-content');
+    const toggleBtn = document.getElementById('toggleSidebar');
+
+    // Estado inicial
+    let isMini = false;
+
+    function toggleSidebar() {
+      if (window.innerWidth >= 768) {
+        // Escritorio: alternar entre mini y full
+        if (isMini) {
+          sidebar.classList.remove('mini');
+          mainContent.style.marginLeft = '18rem'; // w-72
+          toggleBtn.innerHTML = '<i class="fas fa-bars text-gray-700"></i>';
+        } else {
+          sidebar.classList.add('mini');
+          mainContent.style.marginLeft = '4.5rem'; // mini width
+          toggleBtn.innerHTML = '<i class="fas fa-chevron-right text-gray-700"></i>';
+        }
+        isMini = !isMini;
+      } else {
+        // Móvil: abrir/cerrar
+        sidebar.classList.toggle('open');
+        if (sidebar.classList.contains('open')) {
+          toggleBtn.innerHTML = '<i class="fas fa-times text-gray-700"></i>';
+        } else {
+          toggleBtn.innerHTML = '<i class="fas fa-bars text-gray-700"></i>';
+        }
+      }
+    }
+
+    // Evento click
+    toggleBtn.addEventListener('click', toggleSidebar);
+
+    // Cerrar sidebar en móvil al hacer clic fuera
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth < 768 && 
+          !sidebar.contains(e.target) && 
+          e.target !== toggleBtn) {
+        sidebar.classList.remove('open');
+        toggleBtn.innerHTML = '<i class="fas fa-bars text-gray-700"></i>';
+      }
+    });
+
+    // Ajustar margen en resize (para responsividad)
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 768) {
+        mainContent.style.marginLeft = '0';
+      } else {
+        if (isMini) {
+          mainContent.style.marginLeft = '4.5rem';
+        } else {
+          mainContent.style.marginLeft = '18rem';
+        }
+      }
+    });
+  </script>
+</body>
+</html>
