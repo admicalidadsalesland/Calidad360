@@ -157,7 +157,9 @@ async function buscarPorDNI() {
       document.getElementById('s5').innerText = match[headers.indexOf('Semana5')] || '—';
 
       // ✅ Mostrar Total General desde Sheets
-      document.getElementById('totalGeneral').innerText = match[headers.indexOf('Totalgeneral')] || '—';
+
+      document.getElementById('totalGeneral').innerText = match[totalGenIndex] || '—';
+
 
       result.classList.remove('hidden');
       status.innerText = 'Resultado encontrado';
