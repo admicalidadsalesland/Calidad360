@@ -4,23 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Web360 | 360</title>
-  <!-- Cargar Tailwind CSS desde CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Iconos de Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
-    /* Transición suave */
     #sidebar { transition: width 0.2s ease, transform 0.2s ease; }
     #main-content { transition: margin-left 0.2s ease; }
-
-    /* Sidebar mini */
     #sidebar.mini { width: 4.5rem; }
     #sidebar.mini .sidebar-text { display: none; }
     #sidebar.mini .sidebar-header,
     #sidebar.mini .sidebar-footer { justify-content: center; }
     #sidebar.mini .nav-item i { margin: 0 auto; display: block; }
-
-    /* Móvil */
     @media (max-width: 768px) {
       #sidebar:not(.open) { transform: translateX(-100%); }
       #sidebar.open { transform: translateX(0); }
@@ -29,25 +22,17 @@
   </style>
 </head>
 <body class="bg-gray-100">
-
-  <!-- Botón Sidebar -->
   <button id="toggleSidebar" class="fixed top-4 left-4 z-50 p-2 rounded-lg bg-white shadow w-10 h-10 flex items-center justify-center" aria-label="Toggle Sidebar">
     <i class="fas fa-bars text-gray-700"></i>
   </button>
-
-  <!-- Sidebar -->
   <aside id="sidebar" class="w-64 bg-white rounded-r-xl shadow-lg fixed h-full z-40 flex flex-col">
-    <!-- Header -->
     <div class="flex items-center justify-between p-4 mb-2 sidebar-header">
       <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center"></div>
       <h1 class="font-bold text-xl text-gray-800 sidebar-text flex-1 text-center">
         <i class="fas fa-globe text-blue-600"></i> Web360
       </h1>
     </div>
-
     <hr class="border-t border-gray-200 my-2">
-
-    <!-- Menú -->
     <nav class="space-y-2 flex-1 px-2">
       <h2 class="text-xs font-semibold text-gray-500 uppercase mb-2 sidebar-text">Menu</h2>
       <ul class="space-y-1">
@@ -65,8 +50,6 @@
         </li>
       </ul>
     </nav>
-
-    <!-- Footer -->
     <div class="p-4 border-t border-gray-200 sidebar-footer">
       <div class="flex items-center space-x-3">
         <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
@@ -79,138 +62,85 @@
       </div>
     </div>
   </aside>
-
-  <!-- Contenido principal -->
   <main id="main-content" class="flex-1 ml-64 pt-20 pb-10 px-4 md:px-6">
-    <div class="max-w-4xl mx-auto text-center mb-8">
-      <h1 class="text-2xl font-bold text-blue-900">🔍 Buscador de Agentes</h1>
-      <p class="text-gray-600 mt-2">Ingresa el DNI del agente para ver su desempeño semanal</p>
+    <div class="max-w-md mx-auto bg-white p-6 rounded-xl shadow-md">
+      <h1 class="text-xl font-bold text-blue-900 text-center mb-4">🔍 Buscar Agente</h1>
+      <div class="flex items-center border rounded-lg overflow-hidden">
+        <input id="dniInput" type="text" placeholder="Ingresa DNI" class="px-4 py-2 w-full focus:outline-none">
+        <button onclick="buscarPorDNI()" class="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700">Buscar</button>
+      </div>
+      <p id="status" class="text-center text-gray-600 italic mt-4">Escribe un DNI y haz clic en Buscar</p>
     </div>
-
-    <div class="flex flex-wrap justify-center gap-3 mb-6">
-      <input id="dniInput" type="text" placeholder="Ej: 3882225" autocomplete="off" class="px-4 py-2.5 w-full max-w-xs border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-      <button onclick="buscarPorDNI()" class="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700">Buscar</button>
+    <div id="result" class="max-w-4xl mx-auto mt-6 bg-white rounded-xl shadow p-6 hidden">
+      <h3 id="agentName" class="text-xl font-bold text-blue-900 mb-4">Sin Nombre</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-5">
+        <div class="bg-gray-50 rounded-lg p-3 text-center shadow-sm">
+          <div class="text-xs font-medium text-gray-500">Semana 1</div>
+          <div id="s1" class="text-lg font-bold text-gray-800 mt-1">—</div>
+        </div>
+        <div class="bg-gray-50 rounded-lg p-3 text-center shadow-sm">
+          <div class="text-xs font-medium text-gray-500">Semana 2</div>
+          <div id="s2" class="text-lg font-bold text-gray-800 mt-1">—</div>
+        </div>
+        <div class="bg-gray-50 rounded-lg p-3 text-center shadow-sm">
+          <div class="text-xs font-medium text-gray-500">Semana 3</div>
+          <div id="s3" class="text-lg font-bold text-gray-800 mt-1">—</div>
+        </div>
+        <div class="bg-gray-50 rounded-lg p-3 text-center shadow-sm">
+          <div class="text-xs font-medium text-gray-500">Semana 4</div>
+          <div id="s4" class="text-lg font-bold text-gray-800 mt-1">—</div>
+        </div>
+        <div class="bg-gray-50 rounded-lg p-3 text-center shadow-sm">
+          <div class="text-xs font-medium text-gray-500">Semana 5</div>
+          <div id="s5" class="text-lg font-bold text-gray-800 mt-1">—</div>
+        </div>
+      </div>
+      <div class="pt-3 border-t text-center">
+        <div class="text-sm font-medium text-gray-600">Total General</div>
+        <div id="total" class="text-2xl font-extrabold text-blue-800 mt-1">—</div>
+      </div>
     </div>
-
-    <div id="status" class="text-center text-gray-600 italic mb-6">Escribe un DNI y haz clic en Buscar</div>
-
-<div id="result" class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl shadow-md p-6 border border-blue-200 hidden transition-all duration-300 ease-in-out">
-  <!-- Nombre del agente -->
-  <h3 id="agentName" class="text-xl font-bold text-blue-900 mb-4 text-center">Sin Nombre</h3>
-
-  <!-- Semanas -->
-  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-5">
-    <div class="bg-white rounded-lg p-3 text-center shadow-sm border border-blue-100 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
-      <div class="text-xs font-medium text-gray-500">Semana 1</div>
-      <div id="s1" class="text-lg font-bold text-gray-800 mt-1">—</div>
-    </div>
-    <div class="bg-white rounded-lg p-3 text-center shadow-sm border border-blue-100 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
-      <div class="text-xs font-medium text-gray-500">Semana 2</div>
-      <div id="s2" class="text-lg font-bold text-gray-800 mt-1">—</div>
-    </div>
-    <div class="bg-white rounded-lg p-3 text-center shadow-sm border border-blue-100 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
-      <div class="text-xs font-medium text-gray-500">Semana 3</div>
-      <div id="s3" class="text-lg font-bold text-gray-800 mt-1">—</div>
-    </div>
-    <div class="bg-white rounded-lg p-3 text-center shadow-sm border border-blue-100 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
-      <div class="text-xs font-medium text-gray-500">Semana 4</div>
-      <div id="s4" class="text-lg font-bold text-gray-800 mt-1">—</div>
-    </div>
-    <div class="bg-white rounded-lg p-3 text-center shadow-sm border border-blue-100 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
-      <div class="text-xs font-medium text-gray-500">Semana 5</div>
-      <div id="s5" class="text-lg font-bold text-gray-800 mt-1">—</div>
-    </div>
-  </div>
-
-  <!-- Total General -->
-  <div class="pt-3 border-t border-blue-200 text-center">
-    <div class="text-sm font-medium text-gray-600">Total General</div>
-    <div id="total" class="text-2xl font-extrabold text-blue-800 mt-1">—</div>
-  </div>
-</div>
-
   </main>
-
-  <!-- Scripts al final del body -->
   <script>
-
-// ✅ Función para buscar por DNI (Cabeceras EXACTAS)
-async function buscarPorDNI() {
-  const dniInput = document.getElementById('dniInput').value.trim();
-  const status = document.getElementById('status');
-  const result = document.getElementById('result');
-
-  if (!dniInput) {
-    status.innerText = 'Por favor, ingresa un DNI.';
-    result.classList.add('hidden');
-    return;
-  }
-
-  status.innerText = 'Buscando...';
-  result.classList.add('hidden');
-
-  try {
-    const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSurBIXBz-zxgpeTzfypry62oOkEvUpRZ-NK7XopbQbCz87sZJFuBUhPTBS17HVxHLuO0kYPe2r3YT0/pub?gid=187586138&single=true&output=csv');
-    const data = await response.text();
-
-    // ✅ Procesamiento seguro del CSV: elimina comillas y espacios
-    const rows = data
-      .split('\n')
-      .filter(line => line.trim() !== '') // elimina líneas vacías
-      .map(line =>
-        line.split(',').map(cell =>
-          cell.trim().replace(/^"(.*)"$/, '$1') // quita comillas envolventes
-        )
-      );
-
-    if (rows.length < 2) {
-      status.innerText = 'No se pudieron cargar los datos.';
-      return;
-    }
-
-    const headers = rows[0];
-    const dniIndex = headers.indexOf('DNI');
-
-    if (dniIndex === -1) {
-      status.innerText = 'La columna "DNI" no existe en los datos.';
-      return;
-    }
-
-    const match = rows.slice(1).find(row => row[dniIndex] === dniInput);
-
-    if (match) {
-      document.getElementById('agentName').innerText = match[headers.indexOf('Agente')] || 'Sin Nombre';
-      document.getElementById('s1').innerText = match[headers.indexOf('Semana1')] || '—';
-      document.getElementById('s2').innerText = match[headers.indexOf('Semana2')] || '—';
-      document.getElementById('s3').innerText = match[headers.indexOf('Semana3')] || '—';
-      document.getElementById('s4').innerText = match[headers.indexOf('Semana4')] || '—';
-      document.getElementById('s5').innerText = match[headers.indexOf('Semana5')] || '—';
-      document.getElementById('total').innerText = match[headers.indexOf('Totalgeneral')] || '—';
-
-      result.classList.remove('hidden');
-      status.innerText = 'Resultado encontrado';
-    } else {
+    async function buscarPorDNI() {
+      const dniInput = document.getElementById('dniInput').value.trim();
+      const status = document.getElementById('status');
+      const result = document.getElementById('result');
+      if (!dniInput) {
+        status.innerText = 'Por favor, ingresa un DNI.';
+        result.classList.add('hidden');
+        return;
+      }
+      status.innerText = 'Buscando...';
       result.classList.add('hidden');
-      status.innerText = 'No se encontró ningún agente con ese DNI.';
+      try {
+        const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSurBIXBz-zxgpeTzfypry62oOkEvUpRZ-NK7XopbQbCz87sZJFuBUhPTBS17HVxHLuO0kYPe2r3YT0/pub?gid=187586138&single=true&output=csv');
+        const data = await response.text();
+        const rows = data.split('\n').filter(line => line.trim() !== '').map(line => line.split(',').map(cell => cell.trim().replace(/^"(.*)"$/, '$1')));
+        const headers = rows[0];
+        const dniIndex = headers.indexOf('DNI');
+        const match = rows.slice(1).find(row => row[dniIndex] === dniInput);
+        if (match) {
+          document.getElementById('agentName').innerText = match[headers.indexOf('Agente')] || 'Sin Nombre';
+          document.getElementById('s1').innerText = match[headers.indexOf('Semana1')] || '—';
+          document.getElementById('s2').innerText = match[headers.indexOf('Semana2')] || '—';
+          document.getElementById('s3').innerText = match[headers.indexOf('Semana3')] || '—';
+          document.getElementById('s4').innerText = match[headers.indexOf('Semana4')] || '—';
+          document.getElementById('s5').innerText = match[headers.indexOf('Semana5')] || '—';
+          document.getElementById('total').innerText = match[headers.indexOf('Totalgeneral')] || '—';
+          result.classList.remove('hidden');
+          status.innerText = 'Resultado encontrado';
+        } else {
+          result.classList.add('hidden');
+          status.innerText = 'No se encontró ningún agente con ese DNI.';
+        }
+      } catch (error) {
+        status.innerText = 'Error al cargar los datos.';
+      }
     }
-  } catch (error) {
-    console.error('Error:', error);
-    status.innerText = 'Error al cargar los datos.';
-  }
-}
-
-
-
-
-
-
-
-
-    // ✅ Lógica del sidebar
     const sidebar = document.getElementById('sidebar');
     const mainContent = document.getElementById('main-content');
     const toggleBtn = document.getElementById('toggleSidebar');
-
     function toggleSidebar() {
       if (window.innerWidth >= 768) {
         sidebar.classList.toggle('mini');
@@ -220,7 +150,6 @@ async function buscarPorDNI() {
         sidebar.classList.toggle('open');
       }
     }
-
     toggleBtn.addEventListener('click', toggleSidebar);
   </script>
 </body>
