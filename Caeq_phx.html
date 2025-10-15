@@ -1012,7 +1012,72 @@
 
           </div>
 
-          <!-- Speech Abordaje + Objeciones -->
+
+
+<!-- Contenedor principal mejorado - Tema Oscuro -->
+
+<div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-200">
+  <!-- Input de búsqueda -->
+  <div class="mb-6">
+    <label for="buscadorEquipos" class="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">
+      Buscar equipo
+    </label>
+    <div class="relative">
+      <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <input
+        type="text"
+        id="buscadorEquipos"
+        placeholder="Copia y pega el nombre del equipo del Excel..."
+        class="w-full pl-12 pr-4 py-3 text-sm bg-gray-100 text-gray-800 placeholder-gray-500 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-200 hover:bg-gray-50"
+      />
+    </div>
+  </div>
+
+  <!-- Lista de resultados -->
+  <div id="resultadosEquipos" class="space-y-3 mt-2 max-h-60 overflow-y-auto pr-1">
+    <!-- Ejemplo de resultado -->
+    <!--
+    <div class="p-3 bg-white border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 cursor-pointer transition shadow-sm">
+      <p class="text-sm font-medium text-gray-700">Nombre del equipo</p>
+    </div>
+    -->
+  </div>
+
+  <!-- Detalle del equipo seleccionado -->
+
+<div id="detalleEquipo" class="mt-8 p-6 bg-gray-50 rounded-2xl border border-gray-200 shadow-sm hidden transition-all duration-300">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+    
+    <!-- Columna Imagen -->
+<div class="relative w-full max-w-xs h-80 overflow-hidden rounded-xl bg-gray-100 p-3 group" id="zoom-container">
+  <img
+    id="imgEquipo"
+    src=""
+    alt="Equipo"
+    class="w-full h-full object-contain cursor-zoom-in select-none"
+  />
+  <div id="zoom-lens" class="hidden absolute w-28 h-28 rounded-full backdrop-blur-sm border border-white/50 shadow-lg pointer-events-none transition-all duration-150"></div>
+</div>
+
+
+
+    
+    <!-- Columna Detalles -->
+    <div>
+      <h3 id="nombreEquipo" class="text-2xl font-bold text-gray-800 mb-4"></h3>
+      <ul id="caracteristicasEquipo" class="text-sm text-gray-700 space-y-2 list-disc list-inside"></ul>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+
+
+
 <!-- Speech Abordaje + Objeciones (ACORDEÓN) -->
 <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
   <button
@@ -1115,50 +1180,13 @@
   
 </div>
 
-        </div><!-- FIN DE PRIMERA Columna 1: Estrecha (4/12) -->
+
+
+
+</div><!-- FIN DE PRIMERA Columna 1: Estrecha (4/12) -->
 
         <!-- Columna 2: Estrecha (4/12) -->
         <div class="col-span-12 lg:col-span-4 space-y-5">
-
-<!-- Contenedor principal mejorado - Tema Oscuro -->
-<div class="max-w-md mx-auto p-5 bg-gradient-to-b from-gray-800 to-gray-900 rounded-xl shadow-lg border border-gray-700 text-white">
-  <!-- Input de búsqueda -->
-  <div class="mb-5">
-    <label for="buscadorEquipos" class="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wide">Buscar equipo</label>
-    <div class="relative">
-      <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-      </svg>
-      <input
-        type="text"
-        id="buscadorEquipos"
-        placeholder="Copia y pega el nombre del equipo del excel:"
-        class="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm hover:bg-gray-600 hover:border-gray-500"
-      />
-    </div>
-  </div>
-
-  <!-- Lista de resultados -->
-  <div id="resultadosEquipos" class="space-y-2 mt-2 max-h-60 overflow-y-auto pr-1 ">
-  </div>
-
-  <!-- Detalle del equipo seleccionado -->
-  <div id="detalleEquipo" class="mt-6 p-5 bg-gray-800 rounded-xl border border-gray-700 shadow-inner hidden transition-all duration-300">
-    <div class="flex justify-center mb-4">
-      <img
-        id="imgEquipo"
-        src=""
-        alt="Equipo"
-        class="w-full max-w-xs h-48 object-contain rounded-xl shadow-md bg-gray-200 p-2"  /> <!--CAMBIO AQUÍ -->
-    
-    </div>
-    <h3 id="nombreEquipo" class="font-bold text-white text-center text-lg mb-3 px-2"></h3>
-    <ul id="caracteristicasEquipo" class="text-sm text-gray-300 space-y-1.5 list-none px-2"></ul>
-  </div>
-</div>
-
-
-
 
 
 <!-- ENALCES -->
@@ -1727,6 +1755,36 @@
       showBanner(newIndex);
     }, 20000);
   });
+
+
+
+
+  const img = document.getElementById("imgEquipo");
+const lens = document.getElementById("zoom-lens");
+const container = document.getElementById("zoom-container");
+
+container.addEventListener("mousemove", function (e) {
+  const rect = container.getBoundingClientRect();
+  const x = e.clientX - rect.left - lens.offsetWidth / 2;
+  const y = e.clientY - rect.top - lens.offsetHeight / 2;
+
+  lens.style.left = `${x}px`;
+  lens.style.top = `${y}px`;
+
+  lens.style.backgroundImage = `url(${img.src})`;
+  lens.style.backgroundRepeat = "no-repeat";
+  lens.style.backgroundSize = `${img.width * 2}px ${img.height * 2}px`;
+  lens.style.backgroundPosition = `-${x * 2}px -${y * 2}px`;
+});
+
+container.addEventListener("mouseenter", () => {
+  lens.classList.remove("hidden");
+});
+
+container.addEventListener("mouseleave", () => {
+  lens.classList.add("hidden");
+});
+
 </script>
 
 
