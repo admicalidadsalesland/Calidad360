@@ -3,7 +3,7 @@
   const equipos = [
     {
   nombre: "XIAOMI REDMI 15C 256GB",
-  imagen: "https://i02.appmifile.com/687_operator_sg/13/08/2025/bc56eed25c1e429d683eecfdcc5b6924.png",
+  imagen: "https://raw.githubusercontent.com/gporrast20/imagenes/refs/heads/main/redmi15C.jpg",
   caracteristicas: [
     "📱 Pantalla: 6.71\" HD+ IPS LCD (1650 x 720)",
     "⚙️ Procesador: MediaTek Helio G85 (Octa-Core)",
