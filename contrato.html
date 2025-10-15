@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Web360 | Guía</title>
+  <!-- Cargar Tailwind CSS desde CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Iconos de Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+
+    /* Transición suave */
+    #sidebar { transition: width 0.2s ease, transform 0.2s ease; }
+    #main-content { transition: margin-left 0.2s ease; }
+
+    /* Sidebar mini */
+    #sidebar.mini { width: 4.5rem; }
+    #sidebar.mini .sidebar-text { display: none; }
+    #sidebar.mini .sidebar-header,
+    #sidebar.mini .sidebar-footer { justify-content: center; }
+    #sidebar.mini .nav-item i { margin: 0 auto; display: block; }
+
+
+
+    .note-box {
+      background-color: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .note-box strong {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 600;
+      color: #065f46;
+    }
+
+    .fade-slide {
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .fade-slide.show {
+      opacity: 1;
+      transform: translateY(0);
+      display: block;
+    }
+
+    ul li, p {
+      font-size: 0.8125rem;
+      margin-bottom: 6px;
+      color: #334155;
+    }
+
+    .scroll-area {
+      min-height: 650px;
+      max-height: 650px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #cbd5e1 #f1f5f9;
+    }
+    .scroll-area::-webkit-scrollbar {
+      width: 8px;
+    }
+    .scroll-area::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 4px;
+    }
+    .scroll-area::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .scroll-area::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Modern SVG Toggle */
+    .toggle-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+    .toggle-input {
+      opacity: 0;
+      position: absolute;
+    }
+    .toggle-bg {
+      width: 52px;
+      height: 26px;
+      background: #e2e8f0;
+      border-radius: 9999px;
+      position: relative;
+      transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+    }
+    .toggle-circle {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 22px;
+      height: 22px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    .toggle-input:checked + .toggle-bg {
+      background: #2563eb;
+    }
+    .toggle-input:checked + .toggle-bg .toggle-circle {
+      transform: translateX(26px);
+    }
+
+    /* Estilos para opciones de entrega */
+    .opcion-entrega {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.875rem;
+      color: #334155;
+      cursor: pointer;
+      padding: 6px 0;
+    }
+    .opcion-entrega input {
+      margin: 0;
+    }
+
+
+
+  </style>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Botón Sidebar -->
+  <button id="toggleSidebar" class="fixed top-4 left-4 z-50 p-2 rounded-lg bg-white shadow w-10 h-10 flex items-center justify-center" aria-label="Toggle Sidebar">
+    <i class="fas fa-bars text-gray-700"></i>
+  </button>
+
+
+<aside id="sidebar" class="w-64 h-full fixed z-40 flex flex-col rounded-r-xl shadow-lg 
+    bg-gradient-to-b from-gray-800 via-blue-700 to-cyan-500 text-white transition-all duration-300">
+
+    <!-- Header -->
+    <div class="flex items-center gap-3 p-4 border-b border-blue-400/30">
+        <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center"></div>
+        <h1 class="font-bold text-lg sidebar-text">
+            <i class="fas fa-globe text-white"></i>
+            <span>Web360</span>
+        </h1>
+    </div>
+
+    <!-- Menú -->
+    <nav class="flex-1 p-3">
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-blue-200 sidebar-text mb-2">Menú</h2>
+        <ul class="space-y-1">
+              <li>
+                  <a href="" class="flex items-center p-3 rounded-lg hover:bg-white/10 text-white">
+                              <i class="fas fa-tachometer w-5 text-center"></i>
+                              <span class="ml-3 sidebar-text">Notas</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="" class="flex items-center p-3 rounded-lg hover:bg-white/10 text-white">
+                      <i class="fas fa-users w-5 text-center"></i>
+                      <span class="ml-3 sidebar-text">Caeq PHX</span>
+                  </a>
+              </li>
+              <li>
+                <a href="#" class="flex items-center p-3 rounded-lg bg-white/20 text-white font-semibold">
+                    <i class="fas fa-book w-5 text-center"></i>
+                    <span class="ml-3 sidebar-text">Lectura Legal</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Footer -->
+    <div class="p-4 border-t border-blue-400/30">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center font-bold">360</div>
+            <div class="sidebar-text">
+                <p class="text-sm font-semibold text-white">Desarrollado</p>
+                <p class="text-xs text-blue-200">© 2025 Web360</p>
+            </div>
+        </div>
+    </div>
+
+</aside>
+
+
+  <!-- Contenido principal -->
+   
+
+<main id="main-content" class="flex-1 ml-64 pt-3 pb-10 px-4 md:px-6 transition-all duration-300 min-h-screen">
+
+
+<div class="flex flex-col lg:flex-row gap-6">
+
+  <!-- Left column: Opciones del contrato -->
+  <div class="w-full lg:w-1/3 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+    <h2 class="text-xs font-bold text-slate-600 mb-4 uppercase tracking-wider">Opciones del contrato</h2>
+    <div class="space-y-4">
+
+      <!-- Toggle personalizado mejorado -->
+      <style>
+        .toggle-bg {
+          @apply relative inline-block w-11 h-6 rounded-full bg-slate-200 transition-colors duration-200;
+        }
+        .toggle-circle {
+          @apply absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform duration-200;
+        }
+        .toggle-input:checked ~ .toggle-bg {
+          @apply bg-blue-500;
+        }
+        .toggle-input:checked ~ .toggle-bg .toggle-circle {
+          @apply transform translate-x-5;
+        }
+      </style>
+
+      <!-- Opción 1 -->
+      <label class="flex items-start justify-between cursor-pointer w-full group">
+        <div class="flex items-start gap-3">
+          <svg class="mt-0.5 w-5 h-5 text-slate-500 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          <span class="text-slate-800 text-sm font-medium">Renueva más Cambio de Plan</span>
+        </div>
+        <input type="checkbox" class="toggle-input sr-only" onchange="toggleGrupo('grupo1', this)">
+        <div class="toggle-bg"><div class="toggle-circle"></div></div>
+      </label>
+
+      <!-- Opción 5 -->
+      <label class="flex items-start justify-between cursor-pointer w-full group">
+        <div class="flex items-start gap-3">
+          <svg class="mt-0.5 w-5 h-5 text-slate-500 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span class="text-slate-800 text-sm font-medium">Cambio de Plan - UPSELL</span>
+        </div>
+        <input type="checkbox" class="toggle-input sr-only" onchange="toggleGrupo('grupo5', this)">
+        <div class="toggle-bg"><div class="toggle-circle"></div></div>
+      </label>
+
+      <!-- Opción 6 -->
+      <label class="flex items-start justify-between cursor-pointer w-full group">
+        <div class="flex items-start gap-3">
+          <svg class="mt-0.5 w-5 h-5 text-slate-500 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+          </svg>
+          <span class="text-slate-800 text-sm font-medium">Cuotas sin intereses</span>
+        </div>
+        <input type="checkbox" class="toggle-input sr-only" onchange="toggleGrupo('grupo6', this)">
+        <div class="toggle-bg"><div class="toggle-circle"></div></div>
+      </label>
+
+      <!-- Bloque: Opciones de entrega -->
+      <div class="pt-4 border-t border-slate-100">
+        <p class="text-xs text-slate-500 mb-2 uppercase tracking-wider font-semibold">Opciones de entrega</p>
+        <div class="space-y-2">
+          <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-700 hover:text-slate-900">
+            <input type="checkbox" id="chkExpress" onchange="gestionarSeleccion(this)" class="rounded text-blue-600 focus:ring-blue-500">
+            Delivery Express
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-700 hover:text-slate-900">
+            <input type="checkbox" id="chkRegular" onchange="gestionarSeleccion(this)" class="rounded text-blue-600 focus:ring-blue-500">
+            Delivery Regular
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-700 hover:text-slate-900">
+            <input type="checkbox" id="chkPickup" onchange="gestionarSeleccion(this)" class="rounded text-blue-600 focus:ring-blue-500">
+            Recojo en Pick Up
+          </label>
+        </div>
+      </div>
+
+      <!-- Bloque: Antigüedad del cliente -->
+      <div class="pt-4 border-t border-slate-100">
+        <p class="text-xs text-slate-500 mb-2 uppercase tracking-wider font-semibold">Antigüedad del cliente</p>
+        <div class="space-y-2">
+          <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-700 hover:text-slate-900">
+            <input type="checkbox" id="chkMayor6" onchange="gestionarAntiguedad(this)" class="rounded text-blue-600 focus:ring-blue-500">
+            Cliente mayor a 6 meses
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-700 hover:text-slate-900">
+            <input type="checkbox" id="chkMenor6" onchange="gestionarAntiguedad(this)" class="rounded text-blue-600 focus:ring-blue-500">
+            Cliente menor a 6 meses
+          </label>
+        </div>
+      </div>
+
+      <!-- Bloque: Forma de pago del equipo -->
+      <div class="pt-4 border-t border-slate-100">
+        <p class="text-xs text-slate-500 mb-2 uppercase tracking-wider font-semibold">Forma de pago del equipo</p>
+        <div class="space-y-2">
+          <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-700 hover:text-slate-900">
+            <input type="checkbox" id="chkFinanciado" onchange="gestionarFormaPago(this)" class="rounded text-blue-600 focus:ring-blue-500">
+            Equipo Financiado
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-700 hover:text-slate-900">
+            <input type="checkbox" id="chkContado" onchange="gestionarFormaPago(this)" class="rounded text-blue-600 focus:ring-blue-500">
+            Equipo al Contado
+          </label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Right column: contenido dinámico -->
+  <div class="w-full lg:w-2/3">
+    <div class="bg-white p-6 rounded-xl shadow-sm border max-h-[650px] overflow-y-auto scroll-area space-y-6">
+      <h1 class="text-xl font-bold text-slate-800">CONTRATO RENOVACIÓN DE EQUIPO – CAEQ</h1>
+
+      <!-- Texto inicial -->
+      <div id="textoInicial" class="fade-slide show">
+        <p class="text-slate-700">Muy bien Sr/Sra. XXX, vamos a iniciar con la grabación del contrato.</p>
+        <p class="text-slate-700">Siendo hoy las XXX horas del (día, mes, año), para continuar con la renovación del número XXX, por su seguridad validaremos los siguientes datos, me indica su:</p>
+        <ul class="list-disc pl-5 space-y-1 text-slate-700 mt-2">
+          <li>Nombres y apellidos</li>
+          <li>Número de DNI</li>
+          <li>Fecha de nacimiento (día, mes, año)</li>
+          <li>Nombre de su padre</li>
+          <li>Nombre de madre</li>
+          <li>Correo electrónico</li>
+          <li>Número adicional de referencia</li>
+        </ul>
+        <div class="mt-4 p-3 bg-blue-50 border border-blue-100 rounded-lg">
+          <strong class="text-blue-800">Si el cliente nos pregunta, para qué necesitamos el correo electrónico:</strong>
+          <span class="text-blue-700 ml-1">Mencionamos que es para el envío del contrato digital de la solicitud que estamos realizando.</span>
+        </div>
+      </div>
+
+      <!-- Ciclo de facturación y consentimiento (siempre visible) -->
+      <div class="fade-slide show">
+        <h2 class="text-sm font-semibold text-slate-800 mb-2 mt-2 border-b pb-1">Ciclo de facturación</h2>
+        <p class="text-slate-700">Sr./Sra. XXX te recordamos que mantendrás tu ciclo de facturación que inicia el XXX de cada mes y tu fecha de pago máximo es el XXX de cada mes.</p>
+        <p class="text-slate-700">Le comentamos que pagar tus recibos por la app/web de su banco o por la app Mi Movistar es seguro, fácil y además ahorras porque no le cobran comisión.</p>
+
+        <h2 class="text-sm font-semibold text-slate-800 mb-2 mt-4 border-b pb-1">Consentimiento de Comunicaciones Comerciales</h2>
+        <p class="text-slate-700">¿Autoriza a Movistar el envío de promociones comerciales?</p>
+        <p class="text-slate-700">Le agradeceré diga <strong class="text-red-600">SI ACEPTO</strong>.</p>
+        <div class="mt-3 p-3 bg-amber-50 border border-amber-100 rounded-lg">
+          <strong class="text-amber-800">Nota:</strong> La respuesta del cliente no condiciona la venta, podemos continuar la lectura sin problemas.
+        </div>
+      </div>
+
+      <!-- Grupos dinámicos (sin cambios en IDs) -->
+      <div id="grupo1" class="fade-slide hidden">
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+          <h2 class="text-sm font-semibold text-slate-800 mb-2">Leer solo para Renovación más Cambio de Plan</h2>
+          <p class="text-slate-700">Sr./Sra. XXX vamos a realizar el cambio de plan de su número XXX que tiene actualmente el plan XXX y ahora pasará a tener el plan XXX con un precio mensual de S/. XXX. Con este plan obtendrás los siguientes beneficios: <strong class="text-red-600">(LEER PARRILLA DE PLANES Y MENCIONAR LOS BENEFICIOS COMPLETOS)</strong></p>
+        </div>
+      </div>
+
+      <div id="grupo2" class="fade-slide hidden">
+        <div class="bg-white rounded-lg shadow-sm border border-orange-100 p-5">
+          <h3 class="text-base font-semibold text-slate-800 mb-3 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h11M9 21V3m12 4l-8 8-4-4" />
+            </svg>
+            DELIVERY EXPRESS
+          </h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Como te comenté, estaremos visitándote en las próximas <strong>3 horas</strong>. Por favor, mantente disponible en la dirección proporcionada <strong>durante todo el rango</strong>, hasta que llegue el delivery.<br><br>
+            El repartidor se comunicará contigo mediante una <strong>llamada telefónica</strong> el día de la entrega. Ten en cuenta que no podrá esperarte más de <strong>5 minutos</strong>, y recuerda portar tu <strong>DNI físico</strong> para completar la entrega mediante validación de <strong>huella biométrica</strong>.
+          </p>
+          <div class="mt-4 bg-orange-50 border border-orange-200 rounded-lg p-4">
+            <strong class="text-orange-700 text-sm">Importante:</strong>
+            <ul class="mt-2 text-sm text-slate-700 list-disc list-inside space-y-1">
+              <li>Ten tu celular a la mano para recibir la llamada del delivery.</li>
+              <li>Solo el titular de la línea puede recibir el equipo.</li>
+              <li>La entrega es inmediata y requiere validación biométrica.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="grupo3" class="fade-slide hidden">
+        <div class="bg-white rounded-lg shadow-sm border border-emerald-100 p-5">
+          <h3 class="text-base font-semibold text-slate-800 mb-3 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h11M9 21V3m12 4l-8 8-4-4" />
+            </svg>
+            DELIVERY REGULAR
+          </h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Te estaremos visitando el día <strong>XXX</strong> en el rango horario de <strong>XXX</strong>. Por favor, mantente disponible en la dirección proporcionada <strong>durante todo el rango horario</strong>, hasta que llegue el repartidor. El delivery se comunicará contigo por <strong>llamada o WhatsApp</strong> el día de la entrega.<br><br>
+            Recuerda que el delivery no podrá esperarte más de <strong>5 minutos</strong>, y deberás portar tu <strong>DNI físico</strong> para completar la entrega, la cual se realizará con validación de <strong>huella biométrica</strong>.
+          </p>
+          <div class="mt-4 bg-emerald-50 border border-emerald-200 rounded-lg p-4">
+            <strong class="text-emerald-700 text-sm">Importante:</strong>
+            <ul class="mt-2 text-sm text-slate-700 list-disc list-inside space-y-1">
+              <li>Mantente atento al celular para recibir la llamada o mensaje del delivery.</li>
+              <li>Solo el titular de la línea puede recibir el equipo.</li>
+              <li>La entrega requiere validación biométrica con tu huella digital.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="grupo4" class="fade-slide hidden">
+        <div class="bg-white rounded-lg shadow-sm border border-indigo-100 p-5">
+          <h3 class="text-base font-semibold text-slate-800 mb-3 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+            RECOJO EN PICK UP
+          </h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Para recoger tu equipo, podrás hacerlo en un plazo de <strong>24 horas</strong> en la tienda <span class="font-medium">(indicar dirección de almacén elegida por el cliente)</span>. Al llegar deberás indicar que <em>“Vas a recoger tu Equipo Movistar”</em>. Recuerda que solo el <strong>titular de la línea</strong> puede recoger el equipo, ya que pasarás por una <strong>validación biométrica</strong> con tu huella digital. Presenta tu <strong>DNI físico</strong>.
+          </p>
+          <div class="mt-4 bg-indigo-50 border border-indigo-200 rounded-lg p-4">
+            <strong class="text-indigo-700 text-sm">Nota importante:</strong>
+            <ul class="mt-2 text-sm text-slate-700 list-disc list-inside space-y-1">
+              <li>Si la venta se ingresa después de las <strong>10:00 p.m.</strong>, se agrega 1 día adicional.</li>
+              <li>El cliente debe recoger su equipo en un máximo de <strong>4 días</strong>; pasado ese tiempo, se cancela.</li>
+              <li>Presentar <strong>DNI físico</strong> y pasar validación biométrica obligatoria.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="grupo5" class="fade-slide hidden">
+        <div class="bg-rose-50 border-l-4 border-rose-500 p-4 rounded-r-lg">
+          <h2 class="text-sm font-semibold text-slate-800 mb-2">Cambio de Plan - UPSELL</h2>
+          <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200 mt-2">
+            <h3 class="text-base font-semibold text-slate-800 mb-3">LEER SOLO PARA CAMBIO DE PLAN - UPSELL</h3>
+            <ul class="text-sm text-slate-700 leading-relaxed space-y-2 list-disc list-inside">
+              <li>Los beneficios del plan no son acumulables.</li>
+              <li>Los mensajes de texto del cargo fijo no incluyen servicios Premium ni internacionales.</li>
+              <li>Los minutos a todo destino no incluyen llamadas a zonas rurales.</li>
+              <li>
+                Los mensajes de texto incluidos en su plan solo podrán utilizarse para uso personal.
+                No podrán emplearse para servicios de <strong>“mensajes de notificaciones”</strong> ni <strong>“mensajes de publicidad”.</strong>
+              </li>
+              <li>
+                Para llamar a USA y Canadá, deberá marcar previamente <strong>1911</strong> antes del número internacional.
+              </li>
+              <li>
+                El descuento aplicado al precio del equipo adquirido está sujeto a una permanencia de <strong>12 meses con Movistar</strong>. Si incurres en alguna de las siguientes acciones:
+                <ul class="list-disc list-inside ml-5 mt-1">
+                  <li>Solicitar un nuevo equipo.</li>
+                  <li>Dar de baja el servicio.</li>
+                  <li>Cambiar a un plan de menor valor.</li>
+                  <li>No activar la línea dentro de los 30 días luego de suspenderla.</li>
+                  <li>No reactivar la línea tras un corte por falta de pago.</li>
+                </ul>
+                Movistar queda autorizado a aplicar una <strong>penalidad correspondiente.</strong>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="grupo6" class="fade-slide hidden">
+        <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
+          <h2 class="text-sm font-semibold text-slate-800 mb-2">Cuotas sin intereses</h2>
+          <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200 mt-2">
+            <h3 class="text-base font-semibold text-slate-800 mb-3">LEER SOLO PARA CUOTAS SIN INTERESES</h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Recuerde que al adquirir un equipo en modalidad financiada, está sujeto al pago de las <strong>cuotas mensuales</strong>. En caso de incumplimiento en el pago, recibirá <strong>comunicaciones de cobranza</strong> y, posteriormente, Movistar podrá <strong>restringir el funcionamiento del equipo de manera remota</strong> hasta la cancelación total de la deuda.
+            </p>
+            <p class="text-sm text-slate-700 leading-relaxed mt-3">
+              Durante esta restricción, el equipo solo podrá:
+            </p>
+            <ul class="text-sm text-slate-700 list-disc list-inside mt-2 space-y-1">
+              <li>Recibir llamadas.</li>
+              <li>Acceder a números de emergencia.</li>
+              <li>Realizar consultas al <strong>104</strong>.</li>
+            </ul>
+            <p class="text-sm text-slate-700 leading-relaxed mt-3">
+              Este bloqueo es <strong>temporal</strong> y será levantado una vez se registre el pago de la cuota del equipo, con un plazo máximo de <strong>48 horas</strong> para su desbloqueo.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="grupo7" class="fade-slide hidden">
+        <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
+          <h2 class="text-sm font-semibold text-slate-800 mb-2">CLIENTES CON MÁS DE 6 MESES</h2>
+          <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200 mt-2">
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Además, queremos premiarlo como cliente y adelantar su <strong>renovación de equipo sin costos adicionales</strong>, para que siga disfrutando de nuestro servicio con un <strong>nuevo equipo a un gran precio</strong>.
+            </p>
+            <p class="text-sm text-slate-700 leading-relaxed mt-3">
+              Le recordamos que estaremos <strong>anulando el cobro de S/. XXX</strong> correspondiente a la penalidad vigente de su contrato anterior.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="grupo8" class="fade-slide hidden">
+        <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+          <h2 class="text-sm font-semibold text-slate-800 mb-2">CLIENTES CON MENOS DE 6 MESES</h2>
+          <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200 mt-2">
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Le recordamos que en su próxima facturación se le cobrará el monto de <strong>S/. XXX</strong> por concepto de <strong>penalidad de su anterior equipo</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="grupo9" class="fade-slide hidden">
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+          <h2 class="text-sm font-semibold text-slate-800 mb-2">EQUIPO FINANCIADO</h2>
+          <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200 mt-2">
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Para finalizar la renovación del número celular <strong>XXX</strong>, le detallo lo siguiente:
+            </p>
+            <ul class="text-sm text-slate-700 leading-relaxed list-disc list-inside mt-3 space-y-1">
+              <li>El plan que mantiene es el <strong>Plan Mi Movistar</strong> de <strong>S/. XXX</strong>.</li>
+              <li>Con el equipo <strong>XXX</strong> de color <strong>XXX</strong>.</li>
+              <li>
+                Modalidad de financiamiento con una <strong>cuota inicial de S/. XXX</strong> y el saldo financiado en <strong>12 cuotas sin intereses</strong>, cada una de <strong>S/. XXX</strong>.
+              </li>
+              <li>
+                El pago mensual será de <strong>S/. XXX</strong>, el cual incluye el <strong>cargo fijo del plan tarifario</strong> y la <strong>cuota del equipo financiado</strong>.
+              </li>
+            </ul>
+            <p class="text-sm text-slate-700 leading-relaxed mt-3">
+              ¿Nos confirma que podemos proceder con la solicitud?  
+              Le agradeceré que responda: <strong>“Sí, acepto”.</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="grupo10" class="fade-slide hidden">
+        <div class="bg-purple-50 border-l-4 border-purple-500 p-4 rounded-r-lg">
+          <h2 class="text-sm font-semibold text-slate-800 mb-2">EQUIPO AL CONTADO</h2>
+          <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200 mt-2">
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Para finalizar la renovación del número celular <strong>XXX</strong>, le detallo lo siguiente:
+            </p>
+            <ul class="text-sm text-slate-700 leading-relaxed list-disc list-inside mt-3 space-y-1">
+              <li>El plan que mantiene es el <strong>Plan Mi Movistar</strong> de <strong>S/. XXX</strong>.</li>
+              <li>Con el equipo <strong>XXX</strong> de color <strong>XXX</strong>.</li>
+              <li>Al <strong>precio al contado</strong> de <strong>S/. XXX</strong>.</li>
+            </ul>
+            <p class="text-sm text-slate-700 leading-relaxed mt-3">
+              ¿Nos confirma que podemos proceder con la solicitud?  
+              Le agradeceré que responda: <strong>“Sí, acepto”.</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tratamiento de Datos Personales (siempre visible) -->
+      <div class="bg-gray-50 border-l-4 border-gray-400 p-4 rounded-r-lg">
+        <h3 class="text-base font-semibold text-slate-800 mb-3">TRATAMIENTO DE DATOS PERSONALES</h3>
+        <p class="text-sm text-slate-700 leading-relaxed">
+          Movistar resguardará sus datos personales conforme a la legislación vigente.  
+          Para más información, puede consultar nuestra Política de Privacidad en:  
+          <a href="https://www.movistar.com.pe/privacidad" class="text-blue-600 underline hover:text-blue-800" target="_blank">
+            www.movistar.com.pe/privacidad
+          </a>
+        </p>
+        <p class="text-sm text-slate-700 leading-relaxed mt-3">
+          Por favor, permanezca atento a su celular, ya que en los próximos minutos una asesora del <strong>área de validaciones</strong> se estará comunicando para confirmar la renovación de su equipo.
+        </p>
+        <p class="text-sm text-slate-700 leading-relaxed mt-4">
+          Muchas gracias por su confianza y <strong>bienvenid@ nuevamente a la familia Movistar</strong>. ¡Que tenga un excelente día!
+        </p>
+      </div>
+
+<!-- Bloque: Validaciones antes de terminar la llamada -->
+<div class="bg-white rounded-lg shadow-sm p-5 border border-slate-200 mt-5">
+  <h3 class="text-base font-semibold text-slate-800 mb-4">
+    VALIDACIONES ANTES DE TERMINAR LA LLAMADA
+  </h3>
+
+  <!-- Sección: Huella Biométrica -->
+  <div class="mb-4">
+    <h4 class="text-sm font-medium text-slate-700 mb-2">HUELLA BIOMÉTRICA</h4>
+    <ul class="text-sm text-slate-600 space-y-1 list-disc pl-5">
+      <li>La entrega se realiza siempre al titular de la línea, ¿Ha tenido algún percance con su huella biométrica?</li>
+      <li>Cuando ha realizado alguna gestión en banco o notaría, ¿su huella pasó sin problemas o demoró?</li>
+      <li>¿Cuándo ha solicitado algún chip o equipo tuvo percances con su huella?</li>
+    </ul>
+  </div>
+
+  <!-- Sección: Rango de Entrega -->
+  <div class="mb-4">
+    <h4 class="text-sm font-medium text-slate-700 mb-2">RANGO DE ENTREGA</h4>
+    <ul class="text-sm text-slate-600 space-y-1 list-disc pl-5">
+      <li>Recuerde que debe mantenerse en el lugar de la entrega durante todo el rango horario, ¿no tiene ningún pendiente por realizar en este tramo, verdad?</li>
+      <li>El delivery lo va a llamar cuando ya esté en la puerta y lo esperará durante 5 minutos. ¿Tiene facilidad de salir rápidamente, verdad?</li>
+    </ul>
+  </div>
+
+  <!-- Sección: Método de Pago -->
+  <div class="mb-4">
+    <h4 class="text-sm font-medium text-slate-700 mb-2">MÉTODO DE PAGO</h4>
+    <p class="text-sm text-slate-600">
+      Recuerde que debe contar con el monto acordado en el momento de la entrega para que se pueda realizar el pago rápidamente. 
+      <strong>El delivery solo acepta efectivo.</strong>
+    </p>
+  </div>
+
+  <!-- Despedida -->
+  <p class="text-sm text-slate-700 mt-4 pt-3 border-t border-slate-100">
+    Muchas gracias y bienvenid@ una vez más a la familia Movistar. ¡Que tengas un excelente día!
+  </p>
+</div>
+
+
+    </div>
+  </div>
+</div>
+</main>
+
+
+  <script>
+
+    // ✅ Lógica del sidebar
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('main-content');
+    const toggleBtn = document.getElementById('toggleSidebar');
+
+    function toggleSidebar() {
+      if (window.innerWidth >= 768) {
+        sidebar.classList.toggle('mini');
+        mainContent.classList.toggle('ml-16');
+        mainContent.classList.toggle('ml-64');
+      } else {
+        sidebar.classList.toggle('open');
+      }
+    }
+
+    toggleBtn.addEventListener('click', toggleSidebar);
+
+
+
+    function toggleGrupo(id, checkbox) {
+      const grupo = document.getElementById(id);
+      if (!grupo) return;
+
+      if (checkbox.checked) {
+        grupo.classList.remove('hidden');
+        setTimeout(() => grupo.classList.add('show'), 10);
+      } else {
+        grupo.classList.remove('show');
+        setTimeout(() => grupo.classList.add('hidden'), 300);
+      }
+    }
+
+    function gestionarSeleccion(actual) {
+      const checks = [
+        document.getElementById('chkExpress'),
+        document.getElementById('chkRegular'),
+        document.getElementById('chkPickup')
+      ];
+      const secciones = {
+        chkExpress: 'grupo2',
+        chkRegular: 'grupo3',
+        chkPickup: 'grupo4'
+      };
+
+      // Desactivar los demás checkboxes
+      checks.forEach(chk => {
+        if (chk !== actual) {
+          chk.checked = false;
+          const id = chk.id;
+          const seccion = document.getElementById(secciones[id]);
+          if (seccion) {
+            seccion.classList.remove('show');
+            setTimeout(() => seccion.classList.add('hidden'), 300);
+          }
+        }
+      });
+
+      // Mostrar/ocultar la sección seleccionada
+      const targetId = secciones[actual.id];
+      const target = document.getElementById(targetId);
+      if (actual.checked && target) {
+        target.classList.remove('hidden');
+        setTimeout(() => target.classList.add('show'), 10);
+      } else if (target) {
+        target.classList.remove('show');
+        setTimeout(() => target.classList.add('hidden'), 300);
+      }
+    }
+
+
+
+  function gestionarAntiguedad(actual) {
+    const checks = [
+      document.getElementById('chkMayor6'),
+      document.getElementById('chkMenor6')
+    ];
+    const secciones = {
+      chkMayor6: 'grupo7',
+      chkMenor6: 'grupo8'
+    };
+
+    // Desactivar el otro checkbox
+    checks.forEach(chk => {
+      if (chk !== actual) {
+        chk.checked = false;
+        const id = chk.id;
+        const seccion = document.getElementById(secciones[id]);
+        if (seccion) {
+          seccion.classList.remove('show');
+          setTimeout(() => seccion.classList.add('hidden'), 300);
+        }
+      }
+    });
+
+    // Mostrar/ocultar la sección seleccionada
+    const targetId = secciones[actual.id];
+    const target = document.getElementById(targetId);
+    if (actual.checked && target) {
+      target.classList.remove('hidden');
+      setTimeout(() => target.classList.add('show'), 10);
+    } else if (target) {
+      target.classList.remove('show');
+      setTimeout(() => target.classList.add('hidden'), 300);
+    }
+  }
+
+
+  function gestionarFormaPago(actual) {
+  const checks = [
+    document.getElementById('chkFinanciado'),
+    document.getElementById('chkContado')
+  ];
+  const secciones = {
+    chkFinanciado: 'grupo9',
+    chkContado: 'grupo10'
+  };
+
+  // Desactivar el otro checkbox
+  checks.forEach(chk => {
+    if (chk !== actual) {
+      chk.checked = false;
+      const id = chk.id;
+      const seccion = document.getElementById(secciones[id]);
+      if (seccion) {
+        seccion.classList.remove('show');
+        setTimeout(() => seccion.classList.add('hidden'), 300);
+      }
+    }
+  });
+
+  // Mostrar/ocultar la sección seleccionada
+  const targetId = secciones[actual.id];
+  const target = document.getElementById(targetId);
+  if (actual.checked && target) {
+    target.classList.remove('hidden');
+    setTimeout(() => target.classList.add('show'), 10);
+  } else if (target) {
+    target.classList.remove('show');
+    setTimeout(() => target.classList.add('hidden'), 300);
+  }
+}
+  </script>
+
+
+
+</body>
+</html>
