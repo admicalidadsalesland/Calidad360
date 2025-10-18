@@ -261,54 +261,7 @@
       background: rgba(255,255,255,0.2);
     }
   }
-/* === Tus estilos originales === */
-  /* Transición suave */
-  #sidebar { transition: width 0.2s ease, transform 0.2s ease; }
-  #main-content { transition: margin-left 0.2s ease; }
-  /* Sidebar mini */
-  #sidebar.mini { width: 4.5rem; }
-  #sidebar.mini .sidebar-text { display: none; }
-  #sidebar.mini .sidebar-header,
-  #sidebar.mini .sidebar-footer { justify-content: center; }
-  #sidebar.mini .nav-item i { margin: 0 auto; display: block; }
-  /* Móvil */
-  @media (max-width: 768px) {
-    #sidebar:not(.open) { transform: translateX(-100%); }
-    #sidebar.open { transform: translateX(0); }
-    #main-content { margin-left: 0 !important; }
-  }
-  @keyframes spin-hover {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  .hover\:animate-spin-hover:hover {
-    animation: spin-hover 1s linear infinite;
-  }
-  .floating-icons {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-  }
-  .icon {
-    position: absolute;
-    font-size: 40px;
-    animation: float 3s ease-in-out infinite;
-  }
-  /* Posicionamiento según la imagen */
-  .icon:nth-child(1) { top: 5%; right: 30%; animation-delay: 0s; }        /* 📧 - sobre */
-  .icon:nth-child(2) { top: 25%; right: 2%; animation-delay: 0.5s; }     /* ▶️ - play */
-  .icon:nth-child(3) { top: 35%; right: 30%; animation-delay: 1s; }       /* 💬 - chat */
-  .icon:nth-child(4) { top: 5%; right: 10%; animation-delay: 1.5s; }    /* 🔔 - campana */
-  .icon:nth-child(5) { bottom: 10%; right: 25%; animation-delay: 2s; }    /* ❤️ - corazón */
-  .icon:nth-child(6) { bottom: 5%; right: 5%; animation-delay: 2.5s; }  /* 🌍 - globo */
-  @keyframes float {
-    0% { transform: translate(0, 0); }
-    50% { transform: translate(5px, -5px); }
-    100% { transform: translate(0, 0); }
-  }
+
   /* === Estilos del carrusel 3D (ajustados) === */
   .carousel-3d {
     perspective: 1600px;
@@ -1898,9 +1851,7 @@ Tranquilo yo te entiendo, te comento que puedes pagar con tarjeta de crédito o 
 
 <style>
 .animated{
-background: linear-gradient(90deg, #1f2329 0%, #2b2f36 33%, #3a3f48 66%, #9c7b44 100%);
-
-
+background: linear-gradient(90deg, #1b1d22, #3e4a63, #cfa96f);
 
 
   background-size: 300% 300%;
@@ -1923,11 +1874,8 @@ class=" animated bg-white rounded-xl p-6 shadow-lg mb-8 mt-6 rounded-lg shadow-s
       id="searchInput"
       type="text"
       placeholder="🔍 Busca tu equipo"
- class="w-full p-4 text-lg rounded-xl bg-gray-800/70 text-white placeholder-gray-400 border border-gray-700 focus:outline-none focus:ring-0"
- 
-    />
+ class="w-full p-4 text-lg rounded-xl bg-gray-800/70 text-white placeholder-gray-400 border border-gray-700 focus:outline-none focus:ring-0"/>
     <ul id="searchResults" class="absolute w-full mt-2 bg-gray-800 text-white rounded-xl shadow-2xl hidden max-h-60 overflow-y-auto z-50"></ul>
-
 
   <div class="carousel-3d" id="clickWrapper">
     <div id="carouselTrack" class="carousel-track"></div>
