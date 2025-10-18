@@ -12,34 +12,25 @@
     /* Transición suave */
     #sidebar { transition: width 0.2s ease, transform 0.2s ease; }
     #main-content { transition: margin-left 0.2s ease; }
-
     /* Sidebar mini */
     #sidebar.mini { width: 4.5rem; }
     #sidebar.mini .sidebar-text { display: none; }
     #sidebar.mini .sidebar-header,
     #sidebar.mini .sidebar-footer { justify-content: center; }
     #sidebar.mini .nav-item i { margin: 0 auto; display: block; }
-
     /* Móvil */
     @media (max-width: 768px) {
       #sidebar:not(.open) { transform: translateX(-100%); }
       #sidebar.open { transform: translateX(0); }
       #main-content { margin-left: 0 !important; }
     }
-
       @keyframes spin-hover {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
   }
-
   .hover\:animate-spin-hover:hover {
     animation: spin-hover 1s linear infinite;
   }
-
-
-
-
-
 .floating-icons {
   position: absolute;
   top: 0;
@@ -48,13 +39,11 @@
   height: 100%;
   pointer-events: none;
 }
-
 .icon {
   position: absolute;
   font-size: 40px;
   animation: float 3s ease-in-out infinite;
 }
-
 /* Posicionamiento según la imagen */
 .icon:nth-child(1) { top: 5%; right: 30%; animation-delay: 0s; }        /* 📧 - sobre */
 .icon:nth-child(2) { top: 25%; right: 2%; animation-delay: 0.5s; }     /* ▶️ - play */
@@ -62,26 +51,437 @@
 .icon:nth-child(4) { top: 5%; right: 10%; animation-delay: 1.5s; }    /* 🔔 - campana */
 .icon:nth-child(5) { bottom: 10%; right: 25%; animation-delay: 2s; }    /* ❤️ - corazón */
 .icon:nth-child(6) { bottom: 5%; right: 5%; animation-delay: 2.5s; }  /* 🌍 - globo */
-
 @keyframes float {
   0% { transform: translate(0, 0); }
   50% { transform: translate(5px, -5px); }
   100% { transform: translate(0, 0); }
 }
+/* Estilos para el carrusel de tarjetas apiladas */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: auto;
+  }
+  .carousel-3d {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    height: 420px;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease-out;
+    cursor: grab;
+  }
+.card-3d {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  width: 780px;
+  height: 420px;
+  margin: -300px 0 0 -300px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transition: all 0.5s ease-in-out;
+  opacity: 0.9;
+  transform: translateZ(150px) rotateY(0deg);
+  overflow: hidden;
+}
+.card-3d img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 16px;
+}
+  .card-3d.active {
+    opacity: 1;
+    z-index: 10;
+    transform: translateZ(150px) rotateY(0deg) scale(1.05);
+  }
+  @media (max-width: 640px) {
+    .carousel-container {
+      height: 320px;
+    }
+    .carousel-3d,
+    .card-3d {
+      height: 320px;
+      max-width: 260px;
+    }
+    .card-3d {
+      margin: -160px 0 0 -130px;
+    }
+  }
+  @media (max-width: 400px) {
+    .carousel-container {
+      height: 280px;
+    }
+    .carousel-3d,
+    .card-3d {
+      height: 280px;
+      max-width: 220px;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .carousel-3d {
+      perspective: 1600px;
+      width: 920px;
+      margin: 0 auto;
+    }
+    .carousel-track {
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      height: 440px;
+      position: relative;
+    }
+    .carousel-item {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 320px;
+      height: 380px;
+      margin-left: -270px;
+      backface-visibility: hidden;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      pointer-events: none;
+      transition: transform 0.3s ease;
+    }
+    .carousel-item.is-front {
+      pointer-events: auto;
+      cursor: zoom-in;
+      transform: translateY(-12px) scale(1.03);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+    }
+    .carousel-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .carousel-item .caption {
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      color: white;
+      padding: 28px;
+      width: 100%;
+      z-index: 2;
+      text-align: center;
+    }
+    .carousel-item .caption h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin: 0;
+    }
+    .carousel-item .caption p {
+      font-size: 1.05rem;
+      opacity: 0.95;
+      margin-top: 6px;
+    }
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.94);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s, visibility 0.4s;
+      z-index: 1000;
+    }
+    .modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-content {
+      max-width: 90%;
+      max-height: 85%;
+      position: relative;
+    }
+    .modal-content img {
+      max-width: 100%;
+      max-height: 70vh;
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+      display: block;
+      margin: 0 auto;
+    }
+    .modal-caption {
+      color: white;
+      text-align: center;
+      margin-top: 24px;
+    }
+    .modal-caption h3 {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+    .modal-caption p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-top: 8px;
+    }
+    .modal-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      color: white;
+      font-size: 2.8rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background 0.3s;
+    }
+    .modal-close:hover {
+      background: rgba(255,255,255,0.2);
+    }
+  }
+/* === Tus estilos originales === */
+  /* Transición suave */
+  #sidebar { transition: width 0.2s ease, transform 0.2s ease; }
+  #main-content { transition: margin-left 0.2s ease; }
+  /* Sidebar mini */
+  #sidebar.mini { width: 4.5rem; }
+  #sidebar.mini .sidebar-text { display: none; }
+  #sidebar.mini .sidebar-header,
+  #sidebar.mini .sidebar-footer { justify-content: center; }
+  #sidebar.mini .nav-item i { margin: 0 auto; display: block; }
+  /* Móvil */
+  @media (max-width: 768px) {
+    #sidebar:not(.open) { transform: translateX(-100%); }
+    #sidebar.open { transform: translateX(0); }
+    #main-content { margin-left: 0 !important; }
+  }
+  @keyframes spin-hover {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .hover\:animate-spin-hover:hover {
+    animation: spin-hover 1s linear infinite;
+  }
+  .floating-icons {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .icon {
+    position: absolute;
+    font-size: 40px;
+    animation: float 3s ease-in-out infinite;
+  }
+  /* Posicionamiento según la imagen */
+  .icon:nth-child(1) { top: 5%; right: 30%; animation-delay: 0s; }        /* 📧 - sobre */
+  .icon:nth-child(2) { top: 25%; right: 2%; animation-delay: 0.5s; }     /* ▶️ - play */
+  .icon:nth-child(3) { top: 35%; right: 30%; animation-delay: 1s; }       /* 💬 - chat */
+  .icon:nth-child(4) { top: 5%; right: 10%; animation-delay: 1.5s; }    /* 🔔 - campana */
+  .icon:nth-child(5) { bottom: 10%; right: 25%; animation-delay: 2s; }    /* ❤️ - corazón */
+  .icon:nth-child(6) { bottom: 5%; right: 5%; animation-delay: 2.5s; }  /* 🌍 - globo */
+  @keyframes float {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(5px, -5px); }
+    100% { transform: translate(0, 0); }
+  }
+  /* === Estilos del carrusel 3D (ajustados) === */
+  .carousel-3d {
+    perspective: 1600px;
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  .carousel-track {
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    height: 440px;
+    position: relative;
+  }
+  .carousel-item {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 540px;
+    height: 380px;
+    margin-left: -270px;
+    backface-visibility: hidden;
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    pointer-events: none;
+    transition: transform 0.3s ease;
+  }
+  .carousel-item.is-front {
+    pointer-events: auto;
+    cursor: zoom-in;
+    transform: translateY(-12px) scale(1.03);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+  }
+  .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .carousel-item .caption {
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    color: white;
+    padding: 28px;
+    width: 100%;
+    z-index: 2;
+    text-align: center;
+  }
+  .carousel-item .caption h3 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0;
+  }
+  .carousel-item .caption p {
+    font-size: 1.05rem;
+    opacity: 0.95;
+    margin-top: 6px;
+  }
+  /* Modal */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.94);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s, visibility 0.4s;
+    z-index: 1000;
+  }
+  .modal.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  .modal-content {
+    max-width: 90%;
+    max-height: 85%;
+    position: relative;
+  }
+  .modal-content img {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+    display: block;
+    margin: 0 auto;
+  }
+  .modal-caption {
+    color: white;
+    text-align: center;
+    margin-top: 24px;
+  }
+  .modal-caption h3 {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  .modal-caption p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-top: 8px;
+  }
+  .modal-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    color: white;
+    font-size: 2.8rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.3s;
+  }
+  .modal-close:hover {
+    background: rgba(255,255,255,0.2);
+  }
+  /* Buscador */
+  #searchInput {
+    transition: all 0.3s ease;
+  }
+  #searchInput:focus {
+    box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.4);
+  }
+  #searchResults {
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  #searchResults li {
+    transition: background 0.2s;
+  }
+  #searchResults li:hover {
+    background: rgba(244, 63, 94, 0.2);
+  }
+  /* 🔁 Animación del degradado */
+  @keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
 
+  /* Responsive para carrusel */
+  @media (max-width: 768px) {
+    .carousel-track { height: 360px; }
+    .carousel-item {
+      width: 90%;
+      height: 300px;
+      margin-left: -45%;
+    }
+    .carousel-item .caption { padding: 16px; }
+    .carousel-item .caption h3 { font-size: 1.3rem; }
+    .carousel-item .caption p { font-size: 0.95rem; }
+  }
   </style>
 </head>
 <body class="bg-gray-10">
-
   <!-- Botón Sidebar -->
   <button id="toggleSidebar" class="fixed top-4 left-4 z-50 p-2 rounded-lg bg-white shadow w-10 h-10 flex items-center justify-center" aria-label="Toggle Sidebar">
     <i class="fas fa-bars text-gray-700"></i>
   </button>
-
-
 <aside id="sidebar" class="w-64 h-full fixed z-40 flex flex-col rounded-r-xl shadow-lg 
     bg-gradient-to-b from-gray-800 via-blue-700 to-cyan-500 text-white transition-all duration-300">
-
     <!-- Header -->
     <div class="flex items-center gap-3 p-4 border-b border-blue-400/30">
         <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center"></div>
@@ -90,7 +490,6 @@
             <span>Web360</span>
         </h1>
     </div>
-
     <!-- Menú -->
     <nav class="flex-1 p-3">
         <h2 class="text-xs font-semibold uppercase tracking-wider text-blue-200 sidebar-text mb-2">Menú</h2>
@@ -113,10 +512,8 @@
                     <span class="ml-3 sidebar-text">Lectura Legal</span>
                 </a>
             </li>
-
         </ul>
     </nav>
-
     <!-- Footer -->
     <div class="p-4 border-t border-blue-400/30">
         <div class="flex items-center space-x-3">
@@ -127,23 +524,15 @@
             </div>
         </div>
     </div>
-
 </aside>
-
-
   <!-- Contenido principal -->
-   
-
 <main id="main-content" class="flex-1 ml-64 pt-3 pb-10 px-4 md:px-6 transition-all duration-300 min-h-screen">
   <header class="mb-6">
     <h1 class="text-2xl font-bold text-gray-700">📖 Caeq Digital – Asesoría Rápida</h1>
   </header>
-
 <!-- Inicio del Banner Carousel Top -->
 <div class="mt-1 mb-10">
-
   <div class="relative rounded-2xl overflow-hidden shadow-xl h-[320px] md:h-[280px]">
-    
           <div class="floating-icons z-20 absolute inset-0 pointer-events-none">
             <div class="icon">📧</div>   <!-- Sobre amarillo -->
             <div class="icon">▶️</div>   <!-- Botón de reproducción -->
@@ -153,17 +542,18 @@
             <div class="icon">🌍</div>   <!-- Globo con pin -->
           </div>
     <!-- Contenedor de los banners -->
-     
     <div id="carouselTop" class="relative w-full h-full">
       <!-- Banner 1 -->
       <div class="carousel-top-slide absolute inset-0 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 p-8 md:p-12 text-white flex flex-col md:flex-row items-center justify-between transition-opacity duration-700 opacity-100">
         <div class="z-10 max-w-xl">
-          <h2 class="text-3xl md:text-4xl font-bold mb-4">¡Resalta los beneficios!</h2>
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">¡Explica beneficios de la renovación:!</h2>
           <p class="text-lg md:text-xl opacity-90 mb-6">
-             Plan Ahorro Adicional S/39.9 VI con initernet ilimitados y más beneficios especiales.
+              <li>1. Equipos disponibles con descuento.</li>
+              <li>2. Posibles promociones en planes o beneficios adicionales.</li>
+              <li>3. Opciones de financiamiento (si aplica).</li>
           </p>
-          <i class="bg-white text-red-600 font-bold px-6 py-3 rounded-full shadow-md hover:bg-gray-200 transition inline-block">
-            ¡Ofrece ya!
+          <i class="bg-white text-red-600 font-bold px-6 py-3 rounded-full shadow-md hover:bg-gray-200 transition inline-block mt-3">
+            Renueva ya!
           </i>
         </div>
         <div class="mt-6 md:mt-0 z-10">
@@ -176,16 +566,16 @@
         </div>
         <div class="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-2xl pointer-events-none"></div>
       </div>
-
       <!-- Banner 2 -->
       <div class="carousel-top-slide absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 p-8 md:p-12 text-white flex flex-col md:flex-row items-center justify-between transition-opacity duration-700 opacity-0">
         <div class="z-10 max-w-xl">
-          <h2 class="text-3xl md:text-4xl font-bold mb-4">¡Para clientes con marca de promoción!</h2>
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">🚀 Delivery Express:</h2>
           <p class="text-lg md:text-xl opacity-90 mb-6">
-            Beneficios que te da el plan, A PARTIR DEL PRÓXIMO MES recibirás [30GB/50GB] durante 6 meses totalmente gratis!!!
+           <li>✔️ La entrega se realiza en un máximo de 3 horas.</li>
+          <li>✔️ Solo el titular puede recibir el equipo, presentando su documento de identidad.</li>
           </p>
-          <i class="bg-white text-blue-700 font-bold px-6 py-3 rounded-full shadow-md hover:bg-gray-200 transition inline-block">
-             Bono 30GB/50GB x 6 meses
+          <i class="bg-white text-blue-700 font-bold px-6 py-3 rounded-full shadow-md hover:bg-gray-200 transition inline-block mt-3">
+             Listo para recibirlo en su trabajo o su casa!
           </i>
         </div>
         <div class="mt-6 md:mt-0 z-10">
@@ -197,22 +587,19 @@
         </div>
         <div class="absolute inset-0 bg-black/10 backdrop-blur-sm rounded-2xl pointer-events-none"></div>
       </div>
-
           <!-- Banner 3 -->
           <div class="carousel-top-slide absolute inset-0 bg-gradient-to-r from-green-500 via-teal-500 to-cyan-500 p-8 md:p-12 text-white flex flex-col md:flex-row items-center justify-between transition-opacity duration-700 opacity-0">
             <div class="z-10 max-w-xl">
-              <h2 class="text-3xl md:text-4xl font-bold mb-4">¡RECUERDA!</h2>
+              <h2 class="text-3xl md:text-4xl font-bold mb-4">📦 Delivery Regular:</h2>
               <p class="text-lg md:text-xl opacity-90 mb-6">
-                Mencionar los tres principales beneficios del plan, por ejemplo:
+
                 <span>
-                  Llamadas ilimitadas a nivel nacional.
-                  los GB de internet.
-                  5 Apps ILIMITADAS  por 12 meses: WhatsApp, Facebook fotos, Facebook
-                  Messenger, Instagram fotos y Waze.
+                  <li>✔️ La entrega se puede realizar entre los siguientes horarios: [8:00 - 12:00]  [12:00 - 15:00] [15:00 - 19:00]</li>
+                  <li>✔️ La entrega se realiza dentro del horario seleccionado.</li>
                 </span>
               </p>
-              <i class="bg-white text-green-700 font-bold px-6 py-3 rounded-full shadow-md hover:bg-gray-200 transition inline-block">
-                No lo Olvides
+              <i class="bg-white text-green-700 font-bold px-6 py-3 rounded-full shadow-md hover:bg-gray-200 transition inline-block mt-3">
+                Ofrece el horario que más se adecue.
               </i>
             </div>
             <div class="mt-6 md:mt-0 z-10">
@@ -224,26 +611,21 @@
             </div>
             <div class="absolute inset-0 bg-black/10 backdrop-blur-sm rounded-2xl pointer-events-none"></div>
           </div>
-
-
     </div>
-
     <!-- Indicadores -->
     <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
       <button class="indicator-top w-3 h-3 rounded-full bg-white/60 hover:bg-white"></button>
       <button class="indicator-top w-3 h-3 rounded-full bg-white/30 hover:bg-white"></button>
       <button class="indicator-top w-3 h-3 rounded-full bg-white/30 hover:bg-white"></button>
-
     </div>
   </div>
 </div>
 <!-- Fin del Banner Carousel -->
-
-
-    <div class="max-w-7xl mx-auto">
+    <div class="p-0 rounded-2xl"> 
       <div class="grid grid-cols-12 gap-5">
         <!-- ✅ Columna 1: Ancha (8/12) -->
         <div class="col-span-12 lg:col-span-8 space-y-5">
+
           <!-- Carrusel de Planes + Speech Legal -->
           <div class="rounded-lg shadow-sm p-4 border border-gray-100 bg-gradient-to-r from-red-500 via-purple-500 to-blue-500">
           <h2 class="text-2xl font-black text-white mb-3 flex items-center justify-between gap-3">
@@ -260,14 +642,9 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
             </button>
-
           </h2>
-
             <div class="relative overflow-hidden">
               <div id="planes-carousel" class="flex transition-transform duration-300 ease-in-out">
-
-
-
               <!-- Plan 1 -->
             <div class="min-w-[33.3333333333333%] px-1">
               <div class="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col">            
@@ -281,12 +658,10 @@
                 <h3 class="font-bold text-gray-700 text-sm text-center mt-2">
                   <i class="fas fa-mobile-alt text-gray-700 text-xl"></i> Plan Ahorro Mi Movistar S/20.9
                 </h3>
-
                 <!-- Precio grande -->
                 <div class="text-red-600 font-extrabold text-2xl text-center my-3">
                   S/20.90<span class="text-sm font-normal">/mes</span>
                 </div>
-
                 <!-- Resumen de beneficios principales -->
                 <div class="text-center space-y-1 mb-3">
                       <p class="text-center  leading-tight">
@@ -328,7 +703,6 @@
                         <span class="text-[8px] text-gray-600 mt-0.5">Waze</span>
                       </div>
                     </div>
-
                         <p class="flex items-center gap-2 
                           text-red-800 bg-red-50 border-l-4 border-red-500 rounded-lg px-3 py-1 
                           mt-2 shadow-sm animate-pulse text-[9px] font-semibold">
@@ -357,7 +731,6 @@
                     </button>
               </div>
             </div>
-
               <!-- Plan VS2 -->
             <div class="min-w-[33.3333333333333%] px-1">
               <div class="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col">            
@@ -371,12 +744,10 @@
                 <h3 class="font-bold text-gray-700 text-sm text-center mt-2">
                   <i class="fas fa-mobile-alt text-gray-700 text-xl"></i> Plan Ahorro Mi Movistar S/25.9
                 </h3>
-
                 <!-- Precio grande -->
                 <div class="text-red-600 font-extrabold text-2xl text-center my-3">
                   S/25.90<span class="text-sm font-normal">/mes</span>
                 </div>
-
                 <!-- Resumen de beneficios principales -->
                 <div class="text-center space-y-1 mb-3">
                       <p class="text-center  leading-tight">
@@ -418,7 +789,6 @@
                         <span class="text-[8px] text-gray-600 mt-0.5">Waze</span>
                       </div>
                     </div>
-
                         <p class="flex items-center gap-2 
                           text-red-800 bg-red-50 border-l-4 border-red-500 rounded-lg px-3 py-1 
                           mt-2 shadow-sm animate-pulse text-[9px] font-semibold">
@@ -452,7 +822,6 @@
                     </button>
               </div>
             </div>
-
               <!-- Plan VS3 -->
             <div class="min-w-[33.3333333333333%] px-1">
               <div class="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col">            
@@ -466,12 +835,10 @@
                 <h3 class="font-bold text-gray-700 text-sm text-center mt-2">
                   <i class="fas fa-mobile-alt text-gray-700 text-xl"></i> Plan Ahorro Mi Movistar S/35.9 VI
                 </h3>
-
                 <!-- Precio grande -->
                 <div class="text-red-600 font-extrabold text-2xl text-center my-3">
                   S/35.90<span class="text-sm font-normal">/mes</span>
                 </div>
-
                 <!-- Resumen de beneficios principales -->
                 <div class="text-center space-y-1 mb-3">
                       <p class="text-center  leading-tight">
@@ -513,7 +880,6 @@
                         <span class="text-[8px] text-gray-600 mt-0.5">Waze</span>
                       </div>
                     </div>
-
                         <p class="flex items-center gap-2 
                           text-red-800 bg-red-50 border-l-4 border-red-500 rounded-lg px-3 py-1 
                           mt-2 shadow-sm animate-pulse text-[9px] font-semibold">
@@ -547,7 +913,6 @@
                     </button>
               </div>
             </div>
-
               <!-- Plan VS4 -->
             <div class="min-w-[33.3333333333333%] px-1">
               <div class="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col">            
@@ -561,12 +926,10 @@
                 <h3 class="font-bold text-gray-700 text-sm text-center mt-2">
                   <i class="fas fa-mobile-alt text-gray-700 text-xl"></i> Plan Ahorro Mi Movistar S/45.9
                 </h3>
-
                 <!-- Precio grande -->
                 <div class="text-blue-700 font-extrabold text-2xl text-center my-3">
                   S/45.90<span class="text-sm font-normal">/mes</span>
                 </div>
-
                 <!-- Resumen de beneficios principales -->
                 <div class="text-center space-y-1 mb-3">
                       <p class="text-center  leading-tight">
@@ -608,7 +971,6 @@
                         <span class="text-[8px] text-gray-600 mt-0.5">Waze</span>
                       </div>
                     </div>
-
                         <p class="flex items-center gap-2 
                           text-red-800 bg-red-50 border-l-4 border-red-500 rounded-lg px-3 py-1 
                           mt-2 shadow-sm animate-pulse text-[9px] font-semibold">
@@ -642,7 +1004,6 @@
                     </button>
               </div>
             </div>
-
               <!-- Plan VS5 -->
             <div class="min-w-[33.3333333333333%] px-1">
               <div class="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col">            
@@ -656,33 +1017,27 @@
                 <h3 class="font-bold text-gray-700 text-sm text-center mt-2">
                   <i class="fas fa-mobile-alt text-gray-700 text-xl"></i> Plan Ilimitado Mi Movistar S/55.9
                 </h3>
-
                 <!-- Precio grande -->
                 <div class="text-blue-700 font-extrabold text-2xl text-center my-3">
                   S/55.90<span class="text-sm font-normal">/mes</span>
                 </div>
-
               <!-- Resumen de beneficios principales -->
                 <div class="text-center space-y-1 mb-3">
                       <p class="text-center  leading-tight">
                         <span class="block text-red-600 font-semibold text-md">Llamadas Ilimitadas</span>
                         <span class="block text-gray-700 text-xs">A nivel Nacional + 500 SMS</span>
                       </p>
-      
-
                       <p class="text-center  leading-tight">
                         <span class="block text-blue-700 font-semibold text-2xl">Internet Ilimitado</span>
                         <span class="block text-blue-600 text-md">66 GB en alta velocidad</span>
                       </p>        
-
                       <p class="text-center  leading-tight">
                         <span class="block text-gray-600 font-semibold text-md">Llamadas Ilimitadas</span>
                         <span class="block text-gray-700 text-xs">LDI EE.UU./Canadá</span>
                       </p>
-
                 </div>
                 <!-- Beneficios adicionales con borde lateral izquierdo -->
-                <div class="text-center  text-[9px] bg-gray-20 border border-green-200 border-l-4 border-green-500 rounded-lg px-1 py-2 mb-3 my-1">
+                <div class="text-center  border border-green-200 border-l-4 border-green-500 rounded-lg px-1 py-2 mb-3 my-1" style="font-size: 9px; background-color: #e5e7eb;">
                     <p class="text-green-700">
                         <span class="font-semibold flex items-center justify-center gap-1">
                             <i class="fas fa-gift animate-pulse"></i>
@@ -696,7 +1051,6 @@
                         </p>
                     </p>
                 </div>
-
                     <!-- Botón "Contratar" compacto con efecto hover -->
                     <button 
                       type="button" 
@@ -710,7 +1064,6 @@
                     </button>
               </div>
             </div>
-
               <!-- Plan VS6 -->
             <div class="min-w-[33.3333333333333%] px-1">
               <div class="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col">            
@@ -724,33 +1077,27 @@
                 <h3 class="font-bold text-gray-700 text-sm text-center mt-2">
                   <i class="fas fa-mobile-alt text-gray-700 text-xl"></i> Plan Ilimitado Mi Movistar S/65.9
                 </h3>
-
                 <!-- Precio grande -->
                 <div class="text-blue-700 font-extrabold text-2xl text-center my-3">
                   S/65.90<span class="text-sm font-normal">/mes</span>
                 </div>
-
               <!-- Resumen de beneficios principales -->
                 <div class="text-center space-y-1 mb-3">
                       <p class="text-center  leading-tight">
                         <span class="block text-red-600 font-semibold text-md">Llamadas Ilimitadas</span>
                         <span class="block text-gray-700 text-xs">A nivel Nacional + 500 SMS</span>
                       </p>
-      
-
                       <p class="text-center  leading-tight">
                         <span class="block text-blue-700 font-semibold text-2xl">Internet Ilimitado</span>
                         <span class="block text-blue-600 text-md">80 GB en alta velocidad</span>
                       </p>        
-
                       <p class="text-center  leading-tight">
                         <span class="block text-gray-600 font-semibold text-md">Llamadas Ilimitadas</span>
                         <span class="block text-gray-700 text-xs">LDI EE.UU./Canadá</span>
                       </p>
-
                 </div>
                 <!-- Beneficios adicionales con borde lateral izquierdo -->
-                <div class="text-center  text-[9px] bg-gray-20 border border-green-200 border-l-4 border-green-500 rounded-lg px-1 py-2 mb-3 my-1">
+                <div class="text-center  border border-green-200 border-l-4 border-green-500 rounded-lg px-1 py-2 mb-3 my-1" style="font-size: 9px; background-color: #e5e7eb;">
                     <p class="text-green-700">
                         <span class="font-semibold flex items-center justify-center gap-1">
                             <i class="fas fa-gift animate-pulse"></i>
@@ -764,7 +1111,6 @@
                         </p>
                     </p>
                 </div>
-
                     <!-- Botón "Contratar" compacto con efecto hover -->
                     <button 
                       type="button" 
@@ -778,8 +1124,6 @@
                     </button>
               </div>
             </div>
-         
-
               <!-- Plan VS7 -->
             <div class="min-w-[33.3333333333333%] px-1">
               <div class="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col">            
@@ -793,33 +1137,27 @@
                 <h3 class="font-bold text-gray-700 text-sm text-center mt-2">
                   <i class="fas fa-mobile-alt text-gray-700 text-xl"></i> Plan Ilimitado Mi Movistar S/74.9 VI
                 </h3>
-
                 <!-- Precio grande -->
                 <div class="text-red-600 font-extrabold text-2xl text-center my-3">
                   S/74.90<span class="text-sm font-normal">/mes</span>
                 </div>
-
               <!-- Resumen de beneficios principales -->
                 <div class="text-center space-y-1 mb-3">
                       <p class="text-center  leading-tight">
                         <span class="block text-red-600 font-semibold text-md">Llamadas Ilimitadas</span>
                         <span class="block text-gray-700 text-xs">A nivel Nacional + 500 SMS</span>
                       </p>
-      
-
                       <p class="text-center  leading-tight">
                         <span class="block text-blue-700 font-semibold text-2xl">Internet Ilimitado</span>
                         <span class="block text-blue-600 text-md">110 GB en alta velocidad</span>
                       </p>        
-
                       <p class="text-center  leading-tight">
                         <span class="block text-gray-600 font-semibold text-md">Llamadas Ilimitadas</span>
                         <span class="block text-gray-700 text-xs">LDI EE.UU./Canadá</span>
                       </p>
-
                 </div>
                 <!-- Beneficios adicionales con borde lateral izquierdo -->
-                <div class="text-center  text-[9px] bg-gray-20 border border-green-200 border-l-4 border-green-500 rounded-lg px-1 py-2 mb-3 my-1">
+                <div class="text-center  border border-green-200 border-l-4 border-green-500 rounded-lg px-1 py-2 mb-3 my-1" style="font-size: 9px; background-color: #e5e7eb;">
                     <p class="text-green-700">
                         <span class="font-semibold flex items-center justify-center gap-1">
                             <i class="fas fa-gift animate-pulse"></i>
@@ -833,7 +1171,6 @@
                         </p>
                     </p>
                 </div>
-
                     <!-- Botón "Contratar" compacto con efecto hover -->
                     <button 
                       type="button" 
@@ -847,8 +1184,6 @@
                     </button>
               </div>
             </div>  
-
- 
               <!-- Plan VS8 -->
             <div class="min-w-[33.3333333333333%] px-1">
               <div class="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col">            
@@ -862,33 +1197,27 @@
                 <h3 class="font-bold text-gray-700 text-sm text-center mt-2">
                   <i class="fas fa-mobile-alt text-gray-700 text-xl"></i> Plan Ilimitado Mi Movistar S/85.9
                 </h3>
-
                 <!-- Precio grande -->
                 <div class="text-red-600 font-extrabold text-2xl text-center my-3">
                   S/85.90<span class="text-sm font-normal">/mes</span>
                 </div>
-
               <!-- Resumen de beneficios principales -->
                 <div class="text-center space-y-1 mb-3">
                       <p class="text-center  leading-tight">
                         <span class="block text-red-600 font-semibold text-md">Llamadas Ilimitadas</span>
                         <span class="block text-gray-700 text-xs">A nivel Nacional + 500 SMS</span>
                       </p>
-      
-
                       <p class="text-center  leading-tight">
                         <span class="block text-blue-700 font-semibold text-2xl">Internet Ilimitado</span>
                         <span class="block text-blue-600 text-md">125 GB en alta velocidad</span>
                       </p>        
-
                       <p class="text-center  leading-tight">
                         <span class="block text-gray-600 font-semibold text-md">Llamadas Ilimitadas</span>
                         <span class="block text-gray-700 text-xs">LDI EE.UU./Canadá</span>
                       </p>
-
                 </div>
                 <!-- Beneficios adicionales con borde lateral izquierdo -->
-                <div class="text-center  text-[9px] bg-gray-20 border border-green-200 border-l-4 border-green-500 rounded-lg px-1 py-2 mb-3 my-1">
+                <div class="text-center  border border-green-200 border-l-4 border-green-500 rounded-lg px-1 py-2 mb-3 my-1" style="font-size: 9px; background-color: #e5e7eb;">
                     <p class="text-green-700">
                         <span class="font-semibold flex items-center justify-center gap-1">
                             <i class="fas fa-gift animate-pulse"></i>
@@ -902,7 +1231,6 @@
                         </p>
                     </p>
                 </div>
-
                     <!-- Botón "Contratar" compacto con efecto hover -->
                     <button 
                       type="button" 
@@ -916,8 +1244,6 @@
                     </button>
               </div>
             </div>            
-
- 
               <!-- Plan VS9 -->
             <div class="min-w-[33.3333333333333%] px-1">
               <div class="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col">            
@@ -931,34 +1257,28 @@
                 <h3 class="font-bold text-gray-700 text-sm text-center mt-2">
                   <i class="fas fa-mobile-alt text-gray-700 text-xl"></i> Plan Ilimitado Mi Movistar S/114.9
                 </h3>
-
                 <!-- Precio grande -->
                 <div class="text-red-600 font-extrabold text-2xl text-center my-3">
                   S/114.90<span class="text-sm font-normal">/mes</span>
                 </div>
-
               <!-- Resumen de beneficios principales -->
                 <div class="text-center space-y-1 mb-3">
                       <p class="text-center  leading-tight">
                         <span class="block text-red-600 font-semibold text-md">Llamadas Ilimitadas</span>
                         <span class="block text-gray-700 text-xs">A nivel Nacional + 500 SMS</span>
                       </p>
-      
-
                       <p class="text-center  leading-tight">
                         <span class="block text-blue-700 font-semibold text-2xl">Internet Ilimitado</span>
                         <span class="block text-blue-600 text-md">145 GB en alta velocidad</span>
                          <span class="block text-gray-700 text-xs">+ 500MB de tethering</span>
                       </p>        
-
                       <p class="text-center  leading-tight">
                         <span class="block text-gray-600 font-semibold text-md">Llamadas Ilimitadas</span>
                         <span class="block text-gray-700 text-xs">LDI EE.UU./Canadá</span>
                       </p>
-
                 </div>
                 <!-- Beneficios adicionales con borde lateral izquierdo -->
-                <div class="text-center  text-[9px] bg-gray-20 border border-green-200 border-l-4 border-green-500 rounded-lg px-1 py-2 mb-3 my-1">
+                <div class="text-center  border border-green-200 border-l-4 border-green-500 rounded-lg px-1 py-2 mb-3 my-1" style="font-size: 9px; background-color: #e5e7eb;">
                     <p class="text-green-700">
                         <span class="font-semibold flex items-center justify-center gap-1">
                             <i class="fas fa-gift animate-pulse"></i>
@@ -972,7 +1292,6 @@
                         </p>
                     </p>
                 </div>
-
                     <!-- Botón "Contratar" compacto con efecto hover -->
                     <button 
                       type="button" 
@@ -986,10 +1305,7 @@
                     </button>
               </div>
             </div> 
-
-             
               </div>
-
               <!-- Botones de navegación -->
               <button id="prev-plan" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white rounded-r-full p-1 shadow-md hover:bg-gray-50 z-10">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1001,7 +1317,6 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
               </button>
-
               <!-- Indicadores (3 puntos, uno por grupo) -->
               <div class="flex justify-center mt-2 space-x-1">
                 <button class="indicator w-2 h-2 rounded-full bg-gray-300 hover:bg-gray-400 transition-colors duration-200 cursor-pointer" data-group="0"></button>
@@ -1009,75 +1324,7 @@
                 <button class="indicator w-2 h-2 rounded-full bg-gray-300 hover:bg-gray-400 transition-colors duration-200 cursor-pointer" data-group="2"></button>
               </div>
             </div>
-
           </div>
-
-
-
-<!-- Contenedor principal mejorado - Tema Oscuro -->
-
-<div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-200">
-  <!-- Input de búsqueda -->
-  <div class="mb-6">
-    <label for="buscadorEquipos" class="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">
-      Buscar equipo
-    </label>
-    <div class="relative">
-      <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-      </svg>
-      <input
-        type="text"
-        id="buscadorEquipos"
-        placeholder="Copia y pega el nombre del equipo del Excel..."
-        class="w-full pl-12 pr-4 py-3 text-sm bg-gray-100 text-gray-800 placeholder-gray-500 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-200 hover:bg-gray-50"
-      />
-    </div>
-  </div>
-
-  <!-- Lista de resultados -->
-  <div id="resultadosEquipos" class="space-y-3 mt-2 max-h-60 overflow-y-auto pr-1">
-    <!-- Ejemplo de resultado -->
-    <!--
-    <div class="p-3 bg-white border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 cursor-pointer transition shadow-sm">
-      <p class="text-sm font-medium text-gray-700">Nombre del equipo</p>
-    </div>
-    -->
-  </div>
-
-  <!-- Detalle del equipo seleccionado -->
-
-<div id="detalleEquipo" class="mt-8 p-6 bg-gray-50 rounded-2xl border border-gray-200 shadow-sm hidden transition-all duration-300">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-    
-    <!-- Columna Imagen -->
-<div class="relative w-full max-w-xs h-96 overflow-hidden rounded-xl bg-white p-3 group" id="zoom-container">
-  <img
-    id="imgEquipo"
-    src=""
-    alt="Equipo"
-    class="w-full h-full object-contain cursor-zoom-in select-none"
-  />
-  <div id="zoom-lens" class="hidden absolute w-28 h-28 rounded-full backdrop-blur-sm border border-white/50 shadow-lg pointer-events-none transition-all duration-150"></div>
-</div>
-
-
-
-    
-    <!-- Columna Detalles -->
-    <div>
-      <h3 id="nombreEquipo" class="text-2xl font-bold text-gray-800 mb-4"></h3>
-      <ul id="caracteristicasEquipo" class="text-sm text-gray-700 space-y-2 list-disc list-inside"></ul>
-    </div>
-
-  </div>
-</div>
-
-</div>
-
-
-
-
 <!-- Speech Abordaje + Objeciones (ACORDEÓN) -->
 <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
   <button
@@ -1096,18 +1343,14 @@
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
     </svg>
   </button>
-
   <div id="speech-content" class="hidden">
     <div class="p-4 pt-0">
        <!-- INICIO DE SPEECH -->
-
 <div class="bg-white shadow-xl rounded-2xl p-8 max-w-3xl w-full text-sm text-gray-700 space-y-8 font-sans border border-gray-100">
 <!-- Título principal -->
 <header class="text-center pb-6 border-b border-gray-200">
 <h1 class="font-bold text-3xl text-orange-600 tracking-tight">SPEECH DE ATENCIÓN</h1>
 </header>
-
-
 <!-- SALUDO -->
 <section>
 <h2 class="font-semibold text-blue-700 mb-2 text-base border-b border-blue-200 pb-1">SALUDO</h2>
@@ -1115,8 +1358,6 @@
 <p>Hola! Buenos Días/Noches/Tardes le saluda “Nombre y Apellido” del área renovaciones de Movistar, le estamos llamando para ayudarle con la renovación del equipo que solicitó.</p>
 </div>
 </section>
-
-
 <!-- SONDEO -->
 <section>
 <h2 class="font-semibold text-blue-700 mb-2 text-base border-b border-blue-200 pb-1">SONDEO</h2>
@@ -1125,8 +1366,6 @@
 <p>¿Estaría interesado en renovar su equipo con uno de la misma marca verdad?</p>
 </div>
 </section>
-
-
 <!-- ABORDAJE -->
 <section>
 <h2 class="font-semibold text-blue-700 mb-2 text-base border-b border-blue-200 pb-1">ABORDAJE</h2>
@@ -1134,8 +1373,6 @@
 <p>Perfecto, en el Samsung tenemos el “Explicar Modelo a ofrecer indicando 3 características” mientras le evalúo con su número me confirma su DNI por favor?</p>
 </div>
 </section>
-
-
 <!-- NEGOCIACIÓN -->
 <section>
 <h2 class="font-semibold text-blue-700 mb-2 text-base border-b border-blue-200 pb-1">NEGOCIACIÓN</h2>
@@ -1150,8 +1387,6 @@
 </div>
 </div>
 </section>
-
-
 <!-- CIERRE DE VENTAS -->
 <section>
 <h2 class="font-semibold text-blue-700 mb-2 text-base border-b border-blue-200 pb-1">CIERRE DE VENTAS</h2>
@@ -1171,28 +1406,16 @@
 </div>
 </section>
 </div>
-
-
  <!-- FIN DE SPEECH -->
     </div>
   </div>
-
-  
 </div>
-
-
-
-
 </div><!-- FIN DE PRIMERA Columna 1: Estrecha (4/12) -->
-
         <!-- Columna 2: Estrecha (4/12) -->
         <div class="col-span-12 lg:col-span-4 space-y-5">
-
-
 <!-- ENALCES -->
 <div class="bg-white rounded-lg shadow-lg p-5 border border-gray-100">
   <div class="flex flex-col md:flex-row gap-6">
-
     <!-- ✅ Columna 1: Enlaces de Acceso -->
     <div class="md:w-1/2">
       <h2 class="text-sm font-semibold text-gray-800 mb-3 flex items-center gap-1.5">
@@ -1224,10 +1447,7 @@
     📍 Geodir
   </a>
 </div>
-
-
     </div>
-
     <!-- 🎨 Columna 2: Imagen con iconos flotantes FUERA de la imagen -->
     <div class="md:w-1/2 flex items-center justify-center relative" style="min-height: 150px;">
       <!-- Imagen principal (en z-10) -->
@@ -1238,17 +1458,10 @@
         onerror="this.src='https://via.placeholder.com/400x200/e0e0e0/999999?text=Imagen+no+disponible';"
       /> 
     </div>
-
   </div>
 </div>
-
-
-
-
-
 <div class="rounded-lg shadow-lg p-4 border border-gray-700
      bg-gradient-to-br from-gray-800 via-gray-900 to-black">
-
   <h2 class="text-sm font-medium text-white mb-3 flex items-center gap-1.5">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1256,32 +1469,28 @@
     </svg>
     Respuestas a Objeciones
   </h2>
-
   <div class="space-y-1.5">
     <button type="button" onclick="openModal('modal1')"
       class="w-full text-left text-xs bg-gray-800 hover:bg-gray-700 text-gray-200 px-2.5 py-1.5 rounded-md transition-colors flex justify-between items-center">
-      "Ya tengo un plan"
+      "No deseo Renovar por el momento"
       <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 opacity-70 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
       </svg>
     </button>
-
     <button type="button" onclick="openModal('modal2')"
       class="w-full text-left text-xs bg-gray-800 hover:bg-gray-700 text-gray-200 px-2.5 py-1.5 rounded-md transition-colors flex justify-between items-center">
-      "Estoy satisfecho con mi proveedor"
+      "No tengo para pagar al Contado"
       <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 opacity-70 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
       </svg>
     </button>
-
     <button type="button" onclick="openModal('modal3')"
       class="w-full text-left text-xs bg-gray-800 hover:bg-gray-700 text-gray-200 px-2.5 py-1.5 rounded-md transition-colors flex justify-between items-center">
-      "No quiero cambiar de número"
+      "No cuento con tarjetas de crédito"
       <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 opacity-70 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
       </svg>
     </button>
-
     <button type="button" onclick="openModal('modal4')"
       class="w-full text-left text-xs bg-gray-800 hover:bg-gray-700 text-gray-200 px-2.5 py-1.5 rounded-md transition-colors flex justify-between items-center">
       "Es muy caro"
@@ -1291,30 +1500,23 @@
     </button>
   </div>
 </div>
-
-
         </div>
       </div>
     </div>
-
     <!-- Modales -->
-
     <!-- Modal Plan 1 -->
   <div id="modal-plan1" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
-
     <div class="bg-white rounded-lg max-w-4xl w-full shadow-xl flex flex-col max-h-[90vh]">
         <!-- Contenido con scroll interno -->
         <div class="p-6 overflow-y-auto flex-grow">
           <!-- Título -->
           <h3 class="font-bold text-lg text-center mb-4">NUEVO CONTRATO CARIBU PHOENIX – 13/05/2025</h3>
-
           <!-- Nota importante -->
           <div class="bg-red-50 border-l-4 border-red-500 p-3 mb-4">
             <p class="text-red-700 text-sm font-medium">
               IMPORTANTE: La lectura del contrato deberá ser leída de manera COMPLETA, CLARA Y PAUSADA para el buen entendimiento.
             </p>
           </div>
-
             <!-- Sección 1: Validación de Datos Personales -->
             <div class="mb-4 border-t border-gray-200 pt-4">
               <h4 class="font-semibold text-sm mb-2">Validación de Datos Personales</h4>
@@ -1337,35 +1539,28 @@
                 <span class="font-semibold text-blue-600">Listo [Nombre del cliente], iniciaremos con tu contrato de voz:</span>
               </p>
             </div>
-
       <!-- Sección 2: Detalle del Plan a Contratar -->
       <div class="mb-4 border-t border-gray-200 pt-4">
         <h4 class="font-semibold text-sm mb-2">Detalle del Plan a Contratar</h4>
         <p class="text-xs text-gray-700 mb-2">
           Vamos a realizar la migración de tu línea [XX] al Plan ahorro Mi Movistar [XX], con el cual obtendrás los siguientes beneficios por un precio de [XX] soles mensuales: <span class="font-semibold">Informar nuevamente los beneficios del plan a migrar DE MANERA COMPLETA</span>.
         </p>
-
-
                 <!-- Plan 1 -->
             <div class="min-w-[50%] px-1">
               <div class="bg-blue-50 rounded-lg p-3 border border-blue-00 text-center">
                 <h3 class="font-semibold text-blue-800 text-sm">Plan Ahorro Mi Movistar S/25.9 VI</h3>
-
                       <p class="text-xs text-gray-700 mt-1">
                         <span class="font-semibold"><i class="fas fa-phone-volume"></i> <!-- sugiere llamadas + audio -->Llamadas ilimitadas</span> a nivel nacional.
                       </p>
-
                       <p class="text-xs text-gray-700 mt-1">
                        <i class="fas fa-globe text-xs"></i>
                         <span class="font-semibold">250 minutos</span> LDI a EE.UU. y Canadá.
                       </p>
-                        
                       <p class="text-m text-gray-700 mt-1">
                           <span class="font-semibold">
                             <i class="fas fa-wifi"></i>
                             4 GB de internet.</span>
                       </p>
-
                       <p class="mt-2 text-[10px] text-gray-500 italic text-center">*No informar a clientes de Loreto</p>
                       <p class="text-xs text-gray-700 mt-1">    
                           <span class="font-semibold">Apps ILIMITADAS por 12 meses:</span> 
@@ -1377,26 +1572,21 @@
                             <i class="fab fa-instagram text-purple-500 text-base"></i>
                             <i class="fab fa-facebook-messenger text-blue-400 text-base"></i>
                           </p>
-
                       <p class="text-xs text-gray-700 mt-1">
                        <i class="fas fa-sms"></i>
                             <span class="font-semibold">500 SMS </span>
                             para cualquier operador.
                       </p>
-
                       <p class="text-xs text-gray-700 mt-1">
                        <span class="font-semibold">50 MB de tu plan promocionales por 12 meses </span>
                         para usarlos como datos internacionales en determinados países de América y Europa.</p>
               </div>
             </div> 
-             
               <div class="flex items-center my-4">
                 <div class="flex-grow border-t border-gray-200"></div>
                 <span class="mx-2 text-xs text-gray-500">o</span>
                 <div class="flex-grow border-t border-gray-200"></div>
               </div>
-
-
         <p class="text-xs text-gray-700 mb-2">
           Tu servicio móvil tendrá una velocidad mínima garantizada del 40%.
         </p>
@@ -1404,7 +1594,6 @@
           Tu recibo será enviado mensualmente por SMS, al número mínimo del servicio contratado. Si deseas que el recibo llegue en físico a tu domicilio, podrás solicitarlo llamando al 104.
         </p>
       </div>
-
       <!-- Sección 3: Información sobre el Inicio de Beneficios y Facturación -->
       <div class="mb-4 border-t border-gray-200 pt-4">
         <h4 class="font-semibold text-sm mb-2">Información sobre el Inicio de Beneficios y Facturación</h4>
@@ -1423,7 +1612,6 @@
           </p>
         </div>
       </div>
-
       <!-- Sección 4: Pregunta de Consentimiento y Protección de Datos -->
       <div class="mb-4 border-t border-gray-200 pt-4">
         <h4 class="font-semibold text-sm mb-2">Pregunta de Consentimiento y Protección de Datos</h4>
@@ -1437,7 +1625,6 @@
           </a>
         </p>
       </div>
-
       <!-- Sección 5: Confirmación -->
       <div class="mb-4 border-t border-gray-200 pt-4">
         <h4 class="font-semibold text-sm mb-2">Confirmación</h4>
@@ -1448,7 +1635,6 @@
           Siendo hoy [XX de XXXX] de 2025, estamos procediendo a registrar tu solicitud.
         </p>
       </div>
-
       <!-- Sección 6: Recuerda -->
       <div class="border-t border-gray-200 pt-4">
         <h4 class="font-semibold text-sm mb-2">Recuerda</h4>
@@ -1460,7 +1646,6 @@
         </p>
       </div>
     </div>
-
           <!-- Botón de cierre FIJO en la parte inferior -->
           <div class="px-6 py-3 bg-gray-50 rounded-b-lg flex justify-end">
             <button 
@@ -1473,25 +1658,12 @@
           </div>
      </div>
   </div>
-
-
-
-
-
-
-
- 
-
-  
-
 <!-- Modal CICLOS -->
-
 <div id="modalciclo" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
   <div class="bg-white rounded-xl max-w-5xl w-full shadow-2xl flex flex-col max-h-[85vh]">
     <!-- Contenido con scroll -->
     <div class="p-6 overflow-y-auto flex-grow">
       <h3 class="font-semibold text-gray-800 text-base mb-4">📊 Ciclos y Fechas de Pago</h3>
-
       <!-- Scroll horizontal -->
       <div class="overflow-x-auto">
         <table class="min-w-full border border-gray-200 rounded-lg text-sm text-center shadow-sm">
@@ -1573,8 +1745,6 @@
   <td class="px-3 py-2">27</td>
   <td class="px-3 py-2 text-orange-700 font-bold">13</td>
 </tr>
-
-
             <!-- Fila 7 -->
             <tr class="odd:bg-white even:bg-gray-50 hover:bg-blue-50 transition">
               <td class="px-3 py-2">
@@ -1585,12 +1755,10 @@
               <td class="px-3 py-2">30/31</td>
               <td class="px-3 py-2 text-blue-700 font-bold">17</td>
             </tr>
-
           </tbody>
         </table>
       </div>
     </div>
-
     <!-- Footer -->
     <div class="px-4 py-3 bg-gray-50 rounded-b-xl flex justify-end">
       <button type="button" onclick="closeModal('modalciclo')" 
@@ -1600,12 +1768,6 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-
 <!-- ==== MODAL BASE ==== -->
 <style>
 @keyframes fadeIn {
@@ -1616,23 +1778,32 @@
   animation: fadeIn 0.25s ease-out;
 }
 </style>
-
 <!-- ===== Modal 1 ===== -->
 <div id="modal1" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 hidden z-50 transition-opacity duration-300">
   <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full flex flex-col overflow-hidden animate-fadeIn">
     <div class="px-5 py-3 border-b border-slate-100 bg-slate-700 text-white">
-      <h3 class="text-base font-semibold">Celular con teclas</h3>
+      <h3 class="text-base font-semibold">No deseo Renovar por el momento</h3>
     </div>
+<div class="bg-white rounded-xl shadow-md p-6 text-slate-700">
+  <h2 class="text-lg font-semibold mb-4">Argumentos emocionales y de valor</h2>
+  <ul class="space-y-4 text-sm leading-relaxed">
 
-    <div class="p-5 overflow-y-auto max-h-[65vh] text-slate-700 leading-relaxed">
-      <p class="text-sm mb-3">
-        Y justo por eso, esta es una excelente oportunidad. Al pasarse a postpago no solo obtiene llamadas ilimitadas, sino que también accede a promociones especiales para renovar su equipo. 
-        Puede obtener un celular moderno con muchas facilidades de pago, incluso desde <strong>S/0</strong>, previa evaluación crediticia.
+    <li class="flex items-start">
+      <span class="text-blue-500 font-bold mr-2">•</span>
+      <p>
+        Mírelo como una inversión, no solo económica, sino también para su familia. Al tener un equipo con tecnología moderna, estará más conectado, podrá comunicarse mejor, monitorear a los pequeños y acceder a un sinfín de posibilidades que facilitan el día a día.
       </p>
-      <p class="text-sm">
-        Imagínese tener un equipo con pantalla grande, cámara, y la posibilidad de usar WhatsApp o videollamadas sin estar recargando ni preocupándose por el saldo.
+    </li>
+
+    <li class="flex items-start">
+      <span class="text-blue-500 font-bold mr-2">•</span>
+      <p>
+        Lo entiendo perfectamente, todos hemos dudado alguna vez. Pero también sabemos que, a veces, hay que darse ese gusto. Hoy en día, contar con un buen equipo no es un lujo, es una necesidad para estar al ritmo del mundo y cuidar de uno mismo.
       </p>
-    </div>
+    </li>
+
+  </ul>
+</div>
 
     <div class="px-5 py-3 bg-slate-50 border-t border-slate-100 flex justify-end">
       <button onclick="closeModal('modal1')" class="text-sm px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-800 transition font-medium shadow-sm">
@@ -1641,21 +1812,17 @@
     </div>
   </div>
 </div>
-
 <!-- ===== Modal 2 ===== -->
 <div id="modal2" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 hidden z-50 transition-opacity duration-300">
   <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full flex flex-col overflow-hidden animate-fadeIn">
     <div class="px-5 py-3 border-b border-slate-100 bg-slate-700 text-white">
-      <h3 class="text-base font-semibold">Estoy satisfecho con mi proveedor</h3>
+      <h3 class="text-base font-semibold">No tengo para pagar al Contado</h3>
     </div>
-
     <div class="p-5 text-slate-700 leading-relaxed">
       <p class="text-sm">
-        Entiendo. Pero incluso los clientes satisfechos pueden ahorrar cientos al año. 
-        Le ofrezco una comparativa en solo <strong>2 minutos</strong>, sin ningún compromiso ni presión.
+Tranquilo yo te entiendo, te comento que puedes pagar con tarjeta de crédito o débito también aceptamos plin o yape, y lo mejor de todo es que usted efectúa el pago una vez reciba el equipo por lo que es más seguro para usted.
       </p>
     </div>
-
     <div class="px-5 py-3 bg-slate-50 border-t border-slate-100 flex justify-end">
       <button onclick="closeModal('modal2')" class="text-sm px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-800 transition font-medium shadow-sm">
         Cerrar
@@ -1663,20 +1830,20 @@
     </div>
   </div>
 </div>
-
 <!-- ===== Modal 3 ===== -->
 <div id="modal3" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 hidden z-50 transition-opacity duration-300">
   <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full flex flex-col overflow-hidden animate-fadeIn">
     <div class="px-5 py-3 border-b border-slate-100 bg-slate-700 text-white">
-      <h3 class="text-base font-semibold">No quiero cambiar de número</h3>
+      <h3 class="text-base font-semibold">No cuento con tarjetas de créditos</h3>
     </div>
-
-    <div class="p-5 text-slate-700 leading-relaxed">
-      <p class="text-sm">
-        ¡No hay problema! Por ley, puede conservar su número actual. 
-        El proceso es <strong>gratuito, rápido</strong> y lo gestionamos completamente por usted.
-      </p>
-    </div>
+<div class="bg-white rounded-xl shadow-md p-6 text-slate-700 text-sm leading-relaxed">
+  <p>
+    No se preocupe, contamos con opciones de pago seguras y prácticas como <strong>Yape</strong> o <strong>Plin</strong>. Nuestro personal de delivery está autorizado para recibir el abono a través de estas plataformas.
+  </p>
+  <p class="mt-3">
+    Si en caso no dispone del medio de pago en ese momento, puede solicitar el apoyo de un familiar o amigo y luego usted realiza la devolución con total confianza. Solo es importante que la persona titular del medio de pago esté presente al momento de la entrega.
+  </p>
+</div>
 
     <div class="px-5 py-3 bg-slate-50 border-t border-slate-100 flex justify-end">
       <button onclick="closeModal('modal3')" class="text-sm px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-800 transition font-medium shadow-sm">
@@ -1685,30 +1852,47 @@
     </div>
   </div>
 </div>
-
 <!-- ===== Modal 4 ===== -->
 <div id="modal4" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 hidden z-50 transition-opacity duration-300">
   <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full flex flex-col overflow-hidden animate-fadeIn">
     <div class="px-5 py-3 border-b border-slate-100 bg-slate-700 text-white">
       <h3 class="text-base font-semibold">Me parece muy caro</h3>
     </div>
-
     <div class="p-6 flex flex-col md:flex-row gap-5">
       <div class="flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-full bg-slate-100">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
         </svg>
       </div>
+<div class="bg-white rounded-xl shadow-md p-6 text-slate-700">
+  <h2 class="text-lg font-semibold mb-3">Respuestas frente a objeciones del cliente</h2>
+  <ul class="space-y-4 text-sm leading-relaxed">
+    
+    <li class="flex items-start">
+      <span class="text-blue-500 font-bold mr-2">•</span>
+      <p>
+        Es cierto que puedes encontrar equipos más baratos, pero en muchos casos son reacondicionados o de procedencia no garantizada. Con Movistar tienes la tranquilidad de recibir un equipo totalmente nuevo, original y con garantía oficial.
+      </p>
+    </li>
 
-      <div class="flex-grow text-slate-700 leading-relaxed">
-        <p class="text-sm">
-          Con prepago, uno termina recargando varias veces al mes sin darse cuenta, y al final gasta más. 
-          Con postpago, paga una sola vez al mes, sabe exactamente lo que usa, 
-          y accede a promociones exclusivas. Es una forma más inteligente de usar su línea.
-        </p>
-      </div>
+    <li class="flex items-start">
+      <span class="text-blue-500 font-bold mr-2">•</span>
+      <p>
+        Entiendo que pueda parecer un precio elevado, pero si lo comparas con otros modelos de la misma categoría, este ofrece ventajas reales: mejor cámara, mayor rendimiento y una batería de larga duración. En resumen, estás eligiendo calidad y durabilidad.
+      </p>
+    </li>
+
+    <li class="flex items-start">
+      <span class="text-blue-500 font-bold mr-2">•</span>
+      <p>
+        Este modelo tiene un valor superior, pero tú estás accediendo a un <strong>descuento preferencial exclusivo</strong>. Además, puedes financiarlo con tu tarjeta de crédito y pagarlo en las cuotas que mejor se adapten a ti.
+      </p>
+    </li>
+
+  </ul>
+</div>
+
     </div>
-
     <div class="px-5 py-3 bg-slate-50 border-t border-slate-100 flex justify-end">
       <button onclick="closeModal('modal4')" class="text-sm px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-800 transition font-medium shadow-sm">
         Cerrar
@@ -1718,76 +1902,78 @@
 </div>
 
 
+<!-- 🔁 CARRUSEL 3D CON BUSCADOR -->
+
+<style>
+.animated{
+background: linear-gradient(90deg, #1f2329 0%, #2b2f36 33%, #3a3f48 66%, #9c7b44 100%);
+
+
+
+
+  background-size: 300% 300%;
+  animation: gradientShift 8s ease infinite;
+}
+@keyframes gradientShift {
+  0%{ background-position: 0% 50%; }
+  50%{ background-position: 100% 50%; }
+  100%{ background-position: 0% 50%; }
+}
+</style>
+
+<div 
+class=" animated bg-white rounded-xl p-6 shadow-lg mb-8 mt-6 rounded-lg shadow-sm p-4 border border-gray-100 ">
+
+  <h2 class="text-2xl font-bold text-gray-200 mb-4 text-center">Explora Nuestros Equipos</h2>
+  <!-- 🔍 BUSCADOR -->
+  <div class="w-full max-w-3xl mb-6 relative mx-auto">
+    <input
+      id="searchInput"
+      type="text"
+      placeholder="🔍 Busca tu equipo"
+ class="w-full p-4 text-lg rounded-xl bg-gray-800/70 text-white placeholder-gray-400 border border-gray-700 focus:outline-none focus:ring-0"
+ 
+    />
+    <ul id="searchResults" class="absolute w-full mt-2 bg-gray-800 text-white rounded-xl shadow-2xl hidden max-h-60 overflow-y-auto z-50"></ul>
+
+
+  <div class="carousel-3d" id="clickWrapper">
+    <div id="carouselTrack" class="carousel-track"></div>
+
+  </div>
+    <div class="flex justify-center mt-8 space-x-4 flex-wrap gap-1">
+      <button id="prevBtn" class="bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-700 hover:to-rose-800 text-white px-5 py-2.5 rounded-lg font-semibold transition-all shadow-md hover:shadow-lg">
+        ← Anterior
+      </button>
+      <button id="playPauseBtn" class="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white px-5 py-2.5 rounded-lg font-semibold transition-all shadow-md hover:shadow-lg">
+        Pausar
+      </button>
+      <button id="nextBtn" class="bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-700 hover:to-rose-800 text-white px-5 py-2.5 rounded-lg font-semibold transition-all shadow-md hover:shadow-lg">
+        Siguiente →
+      </button>
+    </div>
+  </div>
+
+
+    <!-- Modal -->
+    <div id="imageModal" class="modal">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <div class="modal-content">
+        <img id="modalImage" src="" alt="Imagen ampliada">
+        <div class="modal-caption">
+          <h3 id="modalTitle"></h3>
+          <p id="modalSubtitle"></p>
+        </div>
+      </div>
+    </div>
+</div>
+
+
 </main>
 
-  <!-- Scripts al final del body -->
+
 <script src="modulos.js"></script>
 <script src="equipos.js"></script>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const root = document.querySelector('#carouselTop');
-    const banners = root.querySelectorAll('.carousel-top-slide');
-    const indicators = document.querySelectorAll('.indicator-top');
-
-    let currentIndex = 0;
-
-    function showBanner(index) {
-      banners.forEach((banner, i) => {
-        banner.classList.toggle('opacity-100', i === index);
-        banner.classList.toggle('opacity-0', i !== index);
-      });
-
-      indicators.forEach((dot, i) => {
-        dot.classList.toggle('bg-white/60', i === index);
-        dot.classList.toggle('bg-white/30', i !== index);
-      });
-
-      currentIndex = index;
-    }
-
-    indicators.forEach((dot, i) => {
-      dot.addEventListener('click', () => showBanner(i));
-    });
-
-    setInterval(() => {
-      const newIndex = (currentIndex + 1) % banners.length;
-      showBanner(newIndex);
-    }, 20000);
-  });
-
-
-
-
-  const img = document.getElementById("imgEquipo");
-const lens = document.getElementById("zoom-lens");
-const container = document.getElementById("zoom-container");
-
-container.addEventListener("mousemove", function (e) {
-  const rect = container.getBoundingClientRect();
-  const x = e.clientX - rect.left - lens.offsetWidth / 2;
-  const y = e.clientY - rect.top - lens.offsetHeight / 2;
-
-  lens.style.left = `${x}px`;
-  lens.style.top = `${y}px`;
-
-  lens.style.backgroundImage = `url(${img.src})`;
-  lens.style.backgroundRepeat = "no-repeat";
-  lens.style.backgroundSize = `${img.width * 2}px ${img.height * 2}px`;
-  lens.style.backgroundPosition = `-${x * 2}px -${y * 2}px`;
-});
-
-container.addEventListener("mouseenter", () => {
-  lens.classList.remove("hidden");
-});
-
-container.addEventListener("mouseleave", () => {
-  lens.classList.add("hidden");
-});
-
-</script>
-
-
-
-</body>
+ </body>
 </html>
